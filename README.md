@@ -61,3 +61,5 @@ Gitee 是 OSCHINA 推出的基于 Git 的代码托管平台（同时支持 SVN�
 18. 本地数据库操作
 19. TDD测试驱动开发
 20. widget系列控件--------学习中
+    ### 演示图片
+![Image text](https://gitee.com/weishuolin/androidmydemo/blob/master/app/src/main/assets/demo/Screenshot_2023-05-08-21-14-11-017_esa.mydemo.jpg)

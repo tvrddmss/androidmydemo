@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">mydemo</string>
+
+
+    <string name="base_loading">请稍后...</string>
+    <string name="base_nonetwork">没有网络信号，不能进行操作！</string>
+
+
+    <string name="osm_bottommessage">【Longitude】E  【Latitude】N  海拔:【Altitude】  方向:【Direction】</string>
+</resources>

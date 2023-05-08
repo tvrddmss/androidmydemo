@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <attr name="bottomNavigationViewBackgroundColor" format="color" />
+    <attr name="bottomNavigationViewBackgroundColor_ButtonUnselected" format="color" />
+    <attr name="bottomNavigationViewBackgroundColor_ButtonSelected" format="color" />
+
+
+</resources>

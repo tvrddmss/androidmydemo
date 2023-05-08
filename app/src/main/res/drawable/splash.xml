@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+<!--    白色矩形 作为背景色-->
+<!--    <item>-->
+<!--        <shape>-->
+<!--            <solid android:color="@color/color_white" />-->
+<!--        </shape>-->
+<!--    </item>-->
+<!--    <item-->
+<!--     android:gravity="center_vertical|center_horizontal">-->
+<!--        <bitmap-->
+
+<!--            android:gravity="center_horizontal|top"-->
+<!--            android:src="@drawable/login_background" />-->
+<!--    </item>-->
+
+        <item>
+            <bitmap
+                android:src="@drawable/main_login_background_new" />
+        </item>
+</layer-list>

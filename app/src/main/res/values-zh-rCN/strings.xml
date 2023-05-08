@@ -1,0 +1,69 @@
+<resources>
+    <!--应用名称及代码-->
+    <string name="app_name">测试DEMO</string>
+    <string name="app_name_en">mydemo</string>
+    <string name="app_code">40</string>
+
+    <!--主页-->
+
+
+    <!--网络链接-->
+    <string name="api_http">http</string>
+    <string name="api_ip">162.16.166.1</string>
+    <string name="api_port">1122</string>
+
+    <string name="api_functiontoken">12345678</string>
+    <string name="api_project">esa-zjgcdy-server</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+
+    <!-- Preference Titles -->
+    <string name="messages_header">Messages</string>
+    <string name="sync_header">Sync</string>
+
+
+    <!-- Messages Preferences -->
+    <string name="signature_title">Your signature</string>
+    <string name="reply_title">Default reply action</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title">Sync email periodically</string>
+    <string name="attachment_title">Download incoming attachments</string>
+    <string name="attachment_summary_on">Automatically download attachments for incoming emails
+    </string>
+    <string name="attachment_summary_off">Only download attachments when manually requested</string>
+
+
+    <!-- setting -->
+    <string name="setting_server_PreferenceCategory_title">服务器（测试人员专用）</string>
+    <string name="setting_server_summary">切换服务器用于测试、演示、预览</string>
+    <string name="setting_server_title">服务器</string>
+
+    <string name="setting_language_title">语言</string>
+    <string name="setting_devlanguage_title">当前设备语言</string>
+    <string name="setting_applanguage_title">当前应用程序语言</string>
+
+
+    <string name="setting_theme_title">主题</string>
+
+    <!-- login -->
+    <string name="login_loginbutton">登录</string>
+
+    <!-- bottom nav menu-->
+    <string name="bottom_nav_menu_home">主页</string>
+    <string name="bottom_nav_menu_menu">菜单</string>
+    <string name="bottom_nav_menu_menufragment">样例入口</string>
+
+    <string name="bottom_nav_menu_account">账户</string>
+
+
+    <string name="prompt_email">邮箱</string>
+    <string name="prompt_password">密码</string>
+    <string name="action_sign_in">登录或注册</string>
+    <string name="action_sign_in_short">登录</string>
+    <string name="welcome">欢迎 !</string>
+    <string name="invalid_username">不是有效的登录名</string>
+    <string name="invalid_password">密码长度必须大于5</string>
+    <string name="login_failed">登录失败</string>
+    <string name="title_activity_login">登录页面</string>
+
+</resources>

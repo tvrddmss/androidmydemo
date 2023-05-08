@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">mydemo</string>
+
+    <string name="base_loading">Please wait a moment...</string>
+    <string name="base_nonetwork">No network signal, unable to operate!</string>
+
+    <string name="osm_bottommessage">【Longitude】E  【Latitude】N  Altitude:【Altitude】  Direction:【Direction】</string>
+
+</resources>

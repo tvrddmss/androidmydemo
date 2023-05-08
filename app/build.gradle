@@ -1,0 +1,130 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+}
+
+android {
+    namespace 'esa.mydemo'
+    compileSdk 33
+
+    defaultConfig {
+        applicationId "esa.mydemo"
+        minSdk 28
+        targetSdk 32
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+//        双向绑定
+        dataBinding {
+            enabled true
+        }
+
+        viewBinding {
+            enabled true
+        }
+
+
+        //dex分包
+        multiDexEnabled = true
+
+    }
+
+//    dexOptions {
+//        preDexLibraries = false
+//        javaMaxHeapSize "4g"     //增加java堆内存大小
+//        additionalParameters = [//dex参数详见 dx --help
+//                                '--multi-dex',//多分包
+//                                '--set-max-idx-number=60000',//每个包内方法数上限
+//                                '--main-dex-list='+projectDir+'/maindexlist.txt',//打包进主classes.dex的文件列表
+//                                '--minimal-main-dex'//使上一句生效
+//        ]
+//    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+    kotlinOptions {
+        jvmTarget = '11'
+    }
+//        双向绑定
+    buildFeatures {
+        viewBinding true
+    }
+
+
+    def listSubFile = {
+        def resFolder = 'src/main/res/layout'
+        def files = file(resFolder).listFiles()
+        def folders = []
+        files.each {
+            item -> folders.add(item.absolutePath)
+        }
+        folders.add(file(resFolder).parentFile.absolutePath)
+        return folders
+    }
+
+    sourceSets {
+        main {
+            res.srcDirs 'src/main/res/layout/fab'
+        }
+    }
+}
+
+dependencies {
+
+    implementation 'androidx.appcompat:appcompat:1.4.1'
+//    implementation 'com.google.android.material:material:1.5.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
+    implementation project(path: ':mylibrary')
+    implementation 'androidx.preference:preference:1.1.+'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1'
+    implementation 'androidx.annotation:annotation:1.3.0'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+
+    //用于material 组件
+    implementation 'com.google.android.material:material:1.8.0-alpha02'
+//    implementation 'com.google.android.material:material:1.2.0'
+
+    //kotlin核心模块
+    implementation 'androidx.core:core-ktx:1.9.0'
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.8.0"
+
+//    implementation 'com.google.code.gson:gson:2.8.5'
+
+    //底部导航
+    implementation 'com.google.android.material:material:1.5.0'
+
+    //自己开发的 下拉刷新，上拉加载更多
+    implementation 'com.github.tvrddmss:MyImplementation:2.1'
+
+    //流式布局
+    implementation 'com.google.android.flexbox:flexbox:3.0.0'
+
+    //图片缓存及gif显示
+    implementation 'com.github.bumptech.glide:glide:4.15.1'
+
+    //引如Dagger2
+    implementation('com.google.dagger:dagger:2.42')
+    annotationProcessor('com.google.dagger:dagger-compiler:2.42')
+
+
+//    implementation "com.android.support:multidex:1.0.1"
+
+    //chart
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+}
+

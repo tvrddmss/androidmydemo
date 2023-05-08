@@ -1,0 +1,67 @@
+<resources>
+    <!--应用名称及代码-->
+    <string name="app_name">TestDEMO</string>
+    <string name="app_name_en">mydemo</string>
+    <string name="app_code">40</string>
+
+    <!--主页-->
+
+
+    <!--网络链接-->
+    <string name="api_http">http</string>
+    <string name="api_ip">162.16.166.1</string>
+    <string name="api_port">1122</string>
+
+    <string name="api_functiontoken">12345678</string>
+    <string name="api_project">esa-zjgcdy-server</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+
+    <!-- Preference Titles -->
+    <string name="messages_header">Messages</string>
+    <string name="sync_header">Sync</string>
+
+
+    <!-- Messages Preferences -->
+    <string name="signature_title">Your signature</string>
+    <string name="reply_title">Default reply action</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title">Sync email periodically</string>
+    <string name="attachment_title">Download incoming attachments</string>
+    <string name="attachment_summary_on">Automatically download attachments for incoming emails
+    </string>
+    <string name="attachment_summary_off">Only download attachments when manually requested</string>
+
+
+    <!-- setting -->
+    <string name="setting_server_PreferenceCategory_title">Server (dedicated to testers)</string>
+    <string name="setting_server_summary">Switch servers for testing, demonstration, and preview</string>
+    <string name="setting_server_title">Server</string>
+
+    <string name="setting_language_title">Language</string>
+    <string name="setting_devlanguage_title">Current device language</string>
+    <string name="setting_applanguage_title">Current application language</string>
+
+    <string name="setting_theme_title">Theme</string>
+
+    <!-- login -->
+    <string name="login_loginbutton">Login</string>
+
+
+    <!-- bottom nav menu-->
+    <string name="bottom_nav_menu_home">home</string>
+    <string name="bottom_nav_menu_menu">menu</string>
+    <string name="bottom_nav_menu_menufragment">SampleEntry</string>
+    <string name="bottom_nav_menu_account">account</string>
+
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="title_activity_login">LoginActivity</string>
+
+</resources>

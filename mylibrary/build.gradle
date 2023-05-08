@@ -1,0 +1,76 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+}
+
+android {
+    namespace 'esa.mylibrary'
+    compileSdk 33
+
+    defaultConfig {
+        minSdk 28
+        targetSdk 32
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+//        双向绑定
+        dataBinding {
+            enabled true
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+    kotlinOptions {
+        jvmTarget = '11'
+    }
+//        双向绑定
+    buildFeatures {
+        viewBinding true
+    }
+}
+
+dependencies {
+
+    implementation 'androidx.appcompat:appcompat:1.4.1'
+    implementation 'com.google.android.material:material:1.5.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+
+    //日志工具
+    implementation 'com.orhanobut:logger:2.2.0'
+    //网络请求
+    implementation("com.squareup.okhttp3:okhttp:4.10.0")
+    implementation 'com.google.code.gson:gson:2.8.5'
+
+    //osm
+    implementation 'org.osmdroid:osmdroid-android:6.1.0@aar'
+
+    //流式布局
+    implementation 'com.google.android.flexbox:flexbox:3.0.0'
+
+    //图片缓存及gif显示
+    implementation 'com.github.bumptech.glide:glide:4.15.1'
+//    annotationProcessor 'com.github.bumptech.glide:compiler:4.4.0'
+
+    //屏幕转换计算
+//    dip    将dip单位的数值转换为以px为单位的数值
+//    sp    将sp单位的数值转换为以px为单位的数值
+//    px2dip    将px单位的数值转换为以dip为单位的数值
+//    px2sp    将px单位的数值转换为以sp为单位的数值
+//    dimen    将dip单位的数值转换为以sp为单位的数值
+//    implementation 'org.jetbrains.anko:anko-commons:0.10.8'
+
+}

@@ -1,0 +1,41 @@
+<resources>
+    <!-- Reply Preference -->
+    <string-array name="arry_server">
+        <item>http://152.136.180.178:80</item>
+        <item>http://60.29.24.190:1122</item>
+        <item>https://hotworld.com.cn:1122</item>
+        <item>http://162.16.166.1:1122</item>
+    </string-array>
+    <!-- Reply Preference -->
+    <string-array name="reply_entries">
+        <item>Reply</item>
+        <item>Reply to all</item>
+    </string-array>
+
+    <string-array name="reply_values">
+        <item>reply</item>
+        <item>reply_all</item>
+    </string-array>
+
+
+    <string-array name="languages">
+        <item>English</item>
+        <item>Chinese</item>
+    </string-array>
+
+    <string-array name="language_values">
+        <item>en</item>
+        <item>cn</item>
+    </string-array>
+
+
+    <string-array name="theme">
+        <item>normal</item>
+        <item>dark</item>
+    </string-array>
+
+    <string-array name="theme_values">
+        <item>Theme.Mydemo</item>
+        <item>Theme.Mydemo.Dark</item>
+    </string-array>
+</resources>

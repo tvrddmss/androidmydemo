@@ -1,0 +1,262 @@
+package esa.mylibrary.gps;
+
+import android.Manifest;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Criteria;
+import android.location.GpsSatellite;
+import android.location.GpsStatus;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.location.LocationProvider;
+import android.os.Bundle;
+
+import androidx.core.app.ActivityCompat;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Observable;
+
+import esa.mylibrary.common.CallBack;
+import esa.mylibrary.common.Comfirm;
+import esa.mylibrary.utils.log.MyLog;
+
+/**
+ * @ProjectName: mydemo
+ * @Package: esa.mylibrary.gps
+ * @ClassName: GpsConfig
+ * @Description: java类作用描述
+ * @Author: Administrator
+ * @CreateDate: 2023/04/03 17:12
+ * @UpdateUser: Administrator
+ * @UpdateDate: 2023/04/03 17:12
+ * @UpdateRemark: 更新说明
+ * @Version: 1.0
+ */
+public class MyGps extends Observable {
+
+    private final String TAG = "GpsConfig";
+
+    //当前位置
+    private Location location;
+
+    /**
+     * 静态内部类单例
+     * 优点：外部类加载的时候并不需要立即去加载内部类，内部类不被加载则不会实例化mInstance，不占内存资源，
+     * 保证单例的唯一性，同时也延迟了单例的实例化。
+     */
+    private static class GpsConfigHolder {
+        private static MyGps mInstance = new MyGps();
+    }
+
+    /**
+     * @return esa.mylibrary.gps.GpsConfig
+     * @description
+     * @author Administrator
+     * @time 2023/04/04 16:44
+     */
+    public static MyGps getInstance() {
+        return GpsConfigHolder.mInstance;
+    }
+
+
+    LocationManager lm;
+    LocationListener locationListener;
+
+    /**
+     * @param context
+     * @return void
+     * @description GPS初始化
+     * @author Administrator
+     * @time 2023/04/04 16:54
+     */
+    public void init(Context context) {
+
+        MyLog.d(TAG, "GPS初始化");
+        lm = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+        if (!lm.isProviderEnabled(LocationManager.GPS_PROVIDER) &&
+                !lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+            askLocationSettings(context);
+            return;
+        }
+        //定义监听
+        locationListener = new LocationListener() {
+            /**
+             * 位置信息变化时触发
+             */
+            public void onLocationChanged(Location location) {
+                updateView(location);
+//                MyLog.d(TAG, "时间：" + location.getTime());
+//                MyLog.d(TAG, "经度：" + location.getLongitude());
+//                MyLog.d(TAG, "纬度：" + location.getLatitude());
+//                MyLog.d(TAG, "海拔：" + location.getAltitude());
+            }
+
+            /**
+             * GPS状态变化时触发
+             */
+            public void onStatusChanged(String provider, int status, Bundle extras) {
+                switch (status) {
+                    //GPS状态为可见时
+                    case LocationProvider.AVAILABLE:
+                        MyLog.d(TAG, "当前GPS状态为可见状态");
+                        break;
+                    //GPS状态为服务区外时
+                    case LocationProvider.OUT_OF_SERVICE:
+                        MyLog.d(TAG, "当前GPS状态为服务区外状态");
+                        break;
+                    //GPS状态为暂停服务时
+                    case LocationProvider.TEMPORARILY_UNAVAILABLE:
+                        MyLog.d(TAG, "当前GPS状态为暂停服务状态");
+                        break;
+                }
+            }
+
+            /**
+             * GPS开启时触发
+             */
+            public void onProviderEnabled(String provider) {
+                if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                        && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    // TODO: Consider calling
+                    //    ActivityCompat#requestPermissions
+                    // here to request the missing permissions, and then overriding
+                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                    //                                          int[] grantResults)
+                    // to handle the case where the user grants the permission. See the documentation
+                    // for ActivityCompat#requestPermissions for more details.
+
+                    return;
+                }
+                //主动获取
+                Location location = lm.getLastKnownLocation(provider);
+                updateView(location);
+            }
+
+            /**
+             * GPS禁用时触发
+             */
+            public void onProviderDisabled(String provider) {
+                updateView(null);
+            }
+        };
+
+        //开启监听
+        Criteria crt = new Criteria();                        // 位置监听标准
+        crt.setHorizontalAccuracy(Criteria.ACCURACY_HIGH);    // 水平精度高
+        crt.setAltitudeRequired(true);                        // 需要高度
+        String provider = lm.getBestProvider(crt, true);    // 寻找最匹配的provider
+        location = lm.getLastKnownLocation(provider);    // 取最后已知位置，即缓存中的位置
+//        if (l != null) tvResult.append(provider + "-LastKnown:" + l.toString() + "\n");
+        long period = Long.parseLong("1");        // 最小时间间隔
+        int distance = Integer.parseInt("1");    // 最小距离
+        lm.requestLocationUpdates(provider, period * 1000, distance, locationListener);    // 开始监听
+//        tvResult.append(provider + "-Location listener started.\n");
+
+    }
+
+    /**
+     * @param context
+     * @return void
+     * @description 询问权限
+     * @author Administrator
+     * @time 2023/04/04 16:52
+     */
+    void askLocationSettings(Context context) {
+        Comfirm.Comfirm(context, "本应用需要开启位置服务，是否去设置界面开启位置服务？", new CallBack() {
+            @Override
+            public void success(Object o) {
+                Intent intent = new Intent(
+                        android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
+            }
+
+            @Override
+            public void error(String message) {
+
+            }
+        });
+    }
+
+    /**
+     * @param location
+     * @return void
+     * @description 更新位置
+     * @author Administrator
+     * @time 2023/04/04 16:52
+     */
+    private void updateView(Location location) {
+        //更新当前位置信息
+        this.location = location;
+//        MyLog.d(TAG, location.toString());
+        //被观察者的通知更新
+        setChanged();
+        notifyObservers();
+    }
+
+    /**
+     * @param
+     * @return location
+     * @description 获取当前位置
+     * @author Administrator
+     * @time 2023/04/04 16:52
+     */
+    public Location getLocation() {
+        return this.location;
+    }
+
+
+    public void initiative(Context context) {
+
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        //实例化
+        GpsStatus gpsStatus = lm.getGpsStatus(null); // 获取当前状态
+        // 获取默认最大卫星数
+        int maxSatellites = gpsStatus.getMaxSatellites();
+        //获取第一次定位时间（启动到第一次定位）
+        int costTime = gpsStatus.getTimeToFirstFix();
+        //获取卫星
+        Iterable<GpsSatellite> iterable = gpsStatus.getSatellites();
+        //一般再次转换成Iterator
+        Iterator<GpsSatellite> itrator = iterable.iterator();
+
+        //通过遍历重新整理为ArrayList
+        ArrayList<GpsSatellite> satelliteList = new ArrayList<GpsSatellite>();
+        int count = 0;
+        while (itrator.hasNext() && count <= maxSatellites) {
+            GpsSatellite satellite = itrator.next();
+            satelliteList.add(satellite);
+            count++;
+        }
+        System.out.println("总共搜索到" + count + "颗卫星");
+        //输出卫星信息
+        for (int i = 0; i < satelliteList.size(); i++) {
+            //卫星的方位角，浮点型数据
+            System.out.println(satelliteList.get(i).getAzimuth());
+            //卫星的高度，浮点型数据
+            System.out.println(satelliteList.get(i).getElevation());
+            //卫星的伪随机噪声码，整形数据
+            System.out.println(satelliteList.get(i).getPrn());
+            //卫星的信噪比，浮点型数据
+            System.out.println(satelliteList.get(i).getSnr());
+            //卫星是否有年历表，布尔型数据
+            System.out.println(satelliteList.get(i).hasAlmanac());
+            //卫星是否有星历表，布尔型数据
+            System.out.println(satelliteList.get(i).hasEphemeris());
+            //卫星是否被用于近期的GPS修正计算
+            System.out.println(satelliteList.get(i).hasAlmanac());
+        }
+    }
+}

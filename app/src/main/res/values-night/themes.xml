@@ -1,0 +1,35 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="Theme.Mydemo" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+
+        <!-- 主题颜色. -->
+        <item name="colorPrimary">@color/main</item>
+        <!-- 主题颜色.轻量一般用做背景 -->
+        <item name="colorPrimaryVariant">@color/primary</item>
+
+        <item name="android:textColorHighlightInverse">@color/white</item>
+
+        <!-- 设置状态栏 color. -->
+        <item name="android:statusBarColor">@color/black</item>
+        <!-- 设置状态栏文字色为深色, true为深色, false为白色 -->
+        <item name="android:windowLightStatusBar">false</item>
+
+        <!--窗口背景色-->
+        <item name="android:windowBackground">@color/black</item>
+
+        <!-- Customize your theme here. -->
+        <item name="android:windowFullscreen">false</item>
+        <item name="windowNoTitle">true</item>
+
+        <!--间隔线-->
+        <item name="lineSpacing">@color/line</item>
+        <!--底部菜单栏-->
+        <!--背景色-->
+        <item name="bottomNavigationViewBackgroundColor">@color/black</item>
+        <item name="bottomNavigationViewBackgroundColor_ButtonUnselected">
+            @color/buttonBarUnselected
+        </item>
+        <item name="bottomNavigationViewBackgroundColor_ButtonSelected">@color/buttonBarSelected
+        </item>
+    </style>
+</resources>

@@ -1,0 +1,70 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        app:isPreferenceVisible="false"
+        app:title="@string/messages_header">
+
+        <EditTextPreference
+            app:key="signature"
+            app:title="@string/signature_title"
+            app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:isPreferenceVisible="false"
+        app:title="@string/sync_header">
+
+        <SwitchPreferenceCompat
+            app:key="sync"
+            app:title="@string/sync_title" />
+
+        <SwitchPreferenceCompat
+            app:dependency="sync"
+            app:key="attachment"
+            app:summaryOff="@string/attachment_summary_off"
+            app:summaryOn="@string/attachment_summary_on"
+            app:title="@string/attachment_title" />
+
+    </PreferenceCategory>
+    <PreferenceCategory app:title="@string/setting_server_PreferenceCategory_title">
+        <ListPreference
+            android:entries="@array/arry_server"
+            android:entryValues="@array/arry_server"
+            app:key="server"
+            app:summary="@string/setting_server_summary"
+            app:title="@string/setting_server_title" />
+    </PreferenceCategory>
+
+
+
+    <PreferenceCategory
+        app:title="@string/setting_language_title">
+
+        <EditTextPreference
+            app:key="devlanguage"
+            app:title="@string/setting_devlanguage_title"
+            android:enabled="false"
+            app:useSimpleSummaryProvider="true" />
+
+        <ListPreference
+            android:entries="@array/languages"
+            android:entryValues="@array/language_values"
+            app:key="language"
+            app:summary="@string/setting_language_title"
+            app:title="@string/setting_applanguage_title" />
+    </PreferenceCategory>
+
+
+    <PreferenceCategory
+        app:title="@string/setting_theme_title">
+
+        <ListPreference
+            android:entries="@array/theme"
+            android:entryValues="@array/theme_values"
+            app:key="theme"
+            app:summary="@string/setting_theme_title"
+            app:title="@string/setting_theme_title" />
+    </PreferenceCategory>
+</PreferenceScreen>

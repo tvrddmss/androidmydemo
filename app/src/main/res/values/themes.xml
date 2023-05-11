@@ -61,7 +61,6 @@
         <item name="bottomNavigationViewBackgroundColor_ButtonSelected">@color/buttonBarSelected</item>
 
 
-        <item name="chipGroupStyle"></item>
     </style>
 
     <style name="SplashTheme" parent="Theme.Mydemo">

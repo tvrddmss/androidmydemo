@@ -93,4 +93,10 @@
         <item name="android:colorForeground">#FFFFFF</item>
     </style>
 
+
+    <!-- 圆角图片 -->
+    <style name="roundedCornerImageStyle">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">25dp</item>
+    </style>
 </resources>

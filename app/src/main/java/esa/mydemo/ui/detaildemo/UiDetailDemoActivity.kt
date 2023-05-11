@@ -61,5 +61,10 @@ class UiDetailDemoActivity : AppBaseActivity() {
             }
 //            showMessage("12313123\n34321")
         }
+
+        binding.linearDeterminate.progress = 60
+
+
+        binding.circularDeterminate.progress = 60
     }
 }

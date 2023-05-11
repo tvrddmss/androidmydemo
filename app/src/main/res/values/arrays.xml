@@ -38,4 +38,9 @@
         <item>Theme.Mydemo</item>
         <item>Theme.Mydemo.Dark</item>
     </string-array>
+
+    <array name="initial_slider_values">
+        <item>2.0</item>
+        <item>7.0</item>
+    </array>
 </resources>

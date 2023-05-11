@@ -22,7 +22,7 @@
         <item name="windowNoTitle">true</item>
 
         <!--间隔线-->
-        <item name="lineSpacing">@color/line</item>
+<!--        <item name="lineSpacing">@color/line</item>-->
         <!--底部菜单栏-->
         <!--背景色-->
         <item name="bottomNavigationViewBackgroundColor">@color/black</item>

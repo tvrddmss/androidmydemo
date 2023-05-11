@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:transitionName="detaildemo"
@@ -232,6 +232,58 @@
                         android:paddingRight="20dp"
                         android:paddingBottom="5dp">
 
+                        <com.google.android.material.chip.ChipGroup
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <com.google.android.material.chip.Chip
+                                style="@style/Widget.MaterialComponents.Chip.Choice"
+                                android:layout_width="wrap_content"
+                                android:layout_height="40dp"
+                                android:text="ActionChip" />
+
+                            <com.google.android.material.chip.Chip
+                                style="@style/Widget.MaterialComponents.Chip.Choice"
+                                android:layout_width="wrap_content"
+                                android:layout_height="40dp"
+                                android:text="ActionChip" />
+
+                            <com.google.android.material.chip.Chip
+                                style="@style/Widget.MaterialComponents.Chip.Choice"
+                                android:layout_width="wrap_content"
+                                android:layout_height="40dp"
+                                android:text="ActionChip" />
+
+                            <com.google.android.material.chip.Chip
+                                style="@style/Widget.MaterialComponents.Chip.Choice"
+                                android:layout_width="wrap_content"
+                                android:layout_height="40dp"
+                                android:text="ActionChip" />
+
+                            <com.google.android.material.chip.Chip
+                                style="@style/Widget.MaterialComponents.Chip.Choice"
+                                android:layout_width="wrap_content"
+                                android:layout_height="40dp"
+                                android:text="ActionChip" />
+
+                            <com.google.android.material.chip.Chip
+                                style="@style/Widget.MaterialComponents.Chip.Choice"
+                                android:layout_width="wrap_content"
+                                android:layout_height="40dp"
+                                android:text="ActionChip" />
+
+                            <com.google.android.material.chip.Chip
+                                style="@style/Widget.MaterialComponents.Chip.Choice"
+                                android:layout_width="wrap_content"
+                                android:layout_height="40dp"
+                                android:text="ActionChip" />
+
+                            <com.google.android.material.chip.Chip
+                                style="@style/Widget.MaterialComponents.Chip.Choice"
+                                android:layout_width="wrap_content"
+                                android:layout_height="40dp"
+                                android:text="ActionChip" />
+                        </com.google.android.material.chip.ChipGroup>
                     </esa.mylibrary.uicomponent.RoundedLinearLayout>
                 </LinearLayout>
             </LinearLayout>
@@ -242,18 +294,24 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            app:navigationIcon="@drawable/ic_baseline_menu_24"
+            app:navigationIcon="@drawable/ic_baseline_account_box_24"
+            app:navigationIconTint="@color/black"
 
             app:menu="@menu/bottomappbar_menu"/>
 
+<!--        android:layout_gravity="center_horizontal|bottom"-->
+<!--        android:layout_marginBottom="20dp"-->
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_anchor="@id/bottomappbarView"
+            android:backgroundTint="@color/main"
 
+
+
+            android:contentDescription="test"
             android:src="@drawable/ic_baseline_add_circle_outline_24"
-            />
+            app:layout_anchor="@id/bottomappbarView" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <data>

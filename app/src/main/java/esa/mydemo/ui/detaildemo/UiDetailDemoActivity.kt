@@ -59,6 +59,7 @@ class UiDetailDemoActivity : AppBaseActivity() {
                     binding.bottomappbarView.fabAlignmentMode = FAB_ALIGNMENT_MODE_END
                 }
             }
+            showMessage("12313123\n34321")
         }
     }
 }

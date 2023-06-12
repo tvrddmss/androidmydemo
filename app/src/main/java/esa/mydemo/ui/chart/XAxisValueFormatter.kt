@@ -4,7 +4,7 @@ import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.formatter.ValueFormatter
 import esa.mylibrary.utils.log.MyLog
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
 
 
 class XAxisValueFormatter : ValueFormatter() {

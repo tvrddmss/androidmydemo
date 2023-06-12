@@ -27,7 +27,7 @@ public class Comfirm {
                 })
                 .setNegativeButton("取消", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        callBack.error(null);
+                        callBack.error("");
                     }
                 }).show();
     }

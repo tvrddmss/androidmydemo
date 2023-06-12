@@ -5,11 +5,12 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 
-import java.util.Locale;
-
 import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
 import androidx.databinding.DataBindingUtil;
+
+import java.util.Locale;
+
 import esa.mydemo.BR;
 import esa.mydemo.R;
 import esa.mydemo.base.AppBaseActivity;
@@ -294,7 +295,8 @@ public class LoginActivity extends AppBaseActivity {
 
                 //判断登录名及密码不能为空时，自动登录
                 if (!this.getUserName().isEmpty() && !this.getPassword().isEmpty()) {
-                    this.loginBtnClick(null);
+//                    this.loginBtnClick(null);
+                    binding.btnLogin.performClick();
                 }
             } catch (Exception ex) {
                 MyLog.e("登录页面初始化失败！" + ex.getMessage());

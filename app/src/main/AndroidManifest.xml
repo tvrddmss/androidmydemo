@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
-    <!-- android:configChanges="locale"  修改默认语言 需要在Application类中也设置 -->
-    <uses-permission
-        android:name="android.permission.CHANGE_CONFIGURATION"
-        tools:ignore="ProtectedPermissions" />
+    xmlns:tools="http://schemas.android.com/tools"
+    >
 
+    <!--    android:sharedUserId="android.uid.system"-->
+    <!--    android:sharedUserMaxSdkVersion="32"-->
     <application
-        android:enableOnBackInvokedCallback="true"
         android:name=".MyApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
+        android:enableOnBackInvokedCallback="true"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/demo"
         android:label="@string/app_name"
@@ -19,8 +18,39 @@
         android:theme="@style/Theme.Mydemo"
         tools:targetApi="31">
         <activity
-            android:name=".ui.detaildemo.UiDetailDemoActivity"
+            android:name=".ui.photo.UiPhotoViewActivity"
             android:exported="false" />
+        <activity
+            android:name=".ui.imageview.card.UiImageViewDetailCardActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.imageview.UiImageViewDetailNewActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.imageview.UiImageViewDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.imageview.UiImageViewActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.camera.UiCameraActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.tv.UiTvActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.code.UiCodeActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.data.UiDataDemoActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.detaildemo.UiDetailDemoActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.chart.ChartActivity"
             android:exported="true"

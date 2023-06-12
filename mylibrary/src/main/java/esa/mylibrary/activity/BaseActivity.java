@@ -112,8 +112,6 @@ public class BaseActivity extends AppCompatActivity {
                 }
             }
         }
-
-        ;
     };
 
     /* 初始化没有网络对话框 */
@@ -340,6 +338,8 @@ public class BaseActivity extends AppCompatActivity {
 
     protected void requestPermissions() {
         ActivityCompat.requestPermissions(this, new String[]{
+                Manifest.permission.READ_MEDIA_IMAGES,
+                Manifest.permission.MANAGE_EXTERNAL_STORAGE,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.READ_EXTERNAL_STORAGE,
                 Manifest.permission.CHANGE_NETWORK_STATE,
@@ -353,6 +353,7 @@ public class BaseActivity extends AppCompatActivity {
 //                Manifest.permission.REQUEST_INSTALL_PACKAGES,//-1
 //                Manifest.permission.SYSTEM_ALERT_WINDOW,//-1
 //                Manifest.permission.INSTALL_PACKAGES,//-1
+                Manifest.permission.RECORD_AUDIO,
         }, REQUEST_CODE_ASK_PERMISSIONS);
     }
 

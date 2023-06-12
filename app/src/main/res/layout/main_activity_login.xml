@@ -6,262 +6,136 @@
         android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="?android:attr/windowBackground"
+        android:background="@drawable/main_login_background_new"
         android:fitsSystemWindows="true"
         android:orientation="vertical">
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/txt_top"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:gravity="end|center_vertical"
+            android:text="@{Entity.version}" />
 
-            <TextView
-                android:id="@+id/txt_top"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="right"
-                android:text="@{Entity.version}" />
-        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="0.7"
+            android:gravity="center"
             android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:layout_weight="1">
-                <ImageView
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
-                    android:background="@color/primary"
-                    android:src="@mipmap/demo"/>
+            <ImageView
+                android:layout_width="@dimen/activity_login_icon_size"
+                android:layout_height="@dimen/activity_login_icon_size"
+                android:layout_gravity="center"
+                android:background="@color/white"
+                android:contentDescription="@string/app_name"
+                android:src="@mipmap/demo" />
 
-            </LinearLayout>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="30dp"
+                android:layout_marginBottom="@dimen/activity_login_title_marginbottom"
                 android:gravity="center"
                 android:text="@string/app_name"
-                android:textColor="?attr/colorPrimary"
-                android:textSize="30dp"></TextView>
+                android:textColor="@color/white"
+                android:textSize="@dimen/activity_login_title_textsize"/>
         </LinearLayout>
 
 
         <LinearLayout
             android:id="@+id/login_linearLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="60dp"
-            android:layout_marginRight="60dp"
+            android:layout_height="0dp"
             android:layout_weight="0.7"
             android:orientation="vertical">
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:background="#55FFFFFF"
-                android:elevation="5dp"
-                android:translationZ="5dp"
                 android:orientation="vertical"
                 android:padding="15dp"
-                >
+                android:elevation="1dp"
+                android:translationZ="1dp">
 
-                <LinearLayout
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
+                    android:hint="@string/login_loginname"
+                    app:counterEnabled="true"
+                    app:errorEnabled="true">
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edt_loginname"
+                        android:layout_width="@dimen/activity_login_txt_width"
                         android:layout_height="wrap_content"
-                        android:visibility="gone">
+                        android:imeOptions="actionNext"
+                        android:inputType="text"
+                        android:lines="1"
+                        android:maxLines="1"
+                        android:text="@={Entity.userName}"
+                        android:background="#AAFFFFFF"/>
+                </com.google.android.material.textfield.TextInputLayout>
 
-                        <ImageView
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_marginLeft="10dp"
-                            android:src="@drawable/ic_baseline_account_box_24"></ImageView>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="登录名"
-                            app:errorEnabled="true">
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/edt_loginname"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="@={Entity.userName}"
-                                android:maxLines="1"
-                                android:lines="1"
-                                android:inputType="text"
-                                android:imeOptions="actionNext"
-                                android:background="@color/white"/>
-                        </com.google.android.material.textfield.TextInputLayout>
-
-                        <EditText
-                            android:layout_width="match_parent"
-                            android:layout_height="40dp"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginRight="20dp"
-                            android:layout_marginBottom="5dp"
-                            android:background="@null"
-                            android:ems="10"
-                            android:singleLine="true"
-                            android:textColor="#888888"
-                            android:visibility="gone"></EditText>
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:background="@color/line"
-                    android:visibility="gone"></LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <com.google.android.material.textfield.TextInputLayout
+                    style="?colorOnPrimary"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
+                    android:hint="@string/login_password"
+                    android:paddingBottom="-10sp"
+                    app:boxCornerRadiusTopEnd="-5sp"
+                    app:boxCornerRadiusTopStart="-5sp"
+                    app:errorEnabled="false"
+                    app:passwordToggleEnabled="true"
+                    app:startIconContentDescription="Heading"
+                    >
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edt_password"
+                        android:layout_width="@dimen/activity_login_txt_width"
                         android:layout_height="wrap_content"
-                        android:visibility="gone">
+                        android:imeOptions="actionGo"
+                        android:inputType="textPassword"
+                        android:lines="1"
+                        android:maxLines="1"
+                        android:text="@={Entity.password}"
+                        android:background="#AAFFFFFF"/>
+                </com.google.android.material.textfield.TextInputLayout>
 
-                        <ImageView
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_marginLeft="10dp"
-                            android:src="@drawable/ic_baseline_lock_24"></ImageView>
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="密码"
-                            app:errorEnabled="false"
-                            app:passwordToggleEnabled="true"
-                            android:paddingBottom="-10sp"
-                            style="?colorOnPrimary"
-                            app:boxCornerRadiusTopEnd="-5sp"
-                            app:boxCornerRadiusTopStart="-5sp"
-                            app:startIconContentDescription="Heading">
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/edt_password"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="@={Entity.password}"
-                                android:maxLines="1"
-                                android:lines="1"
-                                android:inputType="textPassword"
-                                android:imeOptions="actionGo"
-                                android:background="@color/white"/>
-                        </com.google.android.material.textfield.TextInputLayout>
-                        <EditText
-                            android:layout_width="match_parent"
-                            android:layout_height="40dp"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginRight="20dp"
-                            android:layout_marginBottom="5dp"
-                            android:background="@null"
-                            android:inputType="textPassword"
-                            android:singleLine="true"
-                            android:textColor="#888888"
-                            android:visibility="gone"/>
-                    </LinearLayout>
-
-                </LinearLayout>
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:shadowColor="@color/black"
-                android:shadowRadius="5">
-
-                <Button
-                    android:id="@+id/btnLogin"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="30dp"
-                    android:onClick="@{(view)->Entity.loginBtnClick(view)}"
-                    android:text="@string/login_loginbutton"
-                    android:textColor="@color/white"
-                    android:textFontWeight="7"
-                    android:textSize="18dp" />
-            </LinearLayout>
+            <Button
+                android:id="@+id/btnLogin"
+                android:layout_width="@dimen/activity_login_txt_width"
+                android:layout_height="@dimen/default_button_heigth"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/activity_login_button_margin_top"
+                android:onClick="@{(view)->Entity.loginBtnClick(view)}"
+                android:text="@string/login_loginbutton"
+                android:textSize="@dimen/default_button_textsize"/>
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginLeft="15dp"
-            android:layout_marginBottom="20dp"
+            android:layout_margin="@dimen/default_margin_left_right"
             android:orientation="horizontal"
             android:visibility="visible">
 
-            <ImageView
-                android:id="@+id/login_img_bottom"
-                android:layout_width="90dp"
-                android:layout_height="90dp"
-                android:visibility="gone" />
-
-            <LinearLayout
+            <TextView
+                android:id="@+id/login_txt_bottom_system_name"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="bottom"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:layout_weight="1"
-                android:orientation="vertical">
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:onLongClick="@{(view)->Entity.onLongClick(view)}"
+                android:singleLine="true"
+                android:text="@{Entity.systemname}" />
 
-                <TextView
-                    android:id="@+id/login_txt_bottom"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="bottom|right" />
-
-<!--                android:onLongClick="@{(view)->Entity.systemNameLongClick(view)}"-->
-                <TextView
-                    android:id="@+id/login_txt_bottom_system_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="bottom|right"
-                    android:onLongClick="@{(view)->Entity.onLongClick(view)}"
-                    android:singleLine="true"
-                    android:text="@{Entity.systemname}" />
-            </LinearLayout>
         </LinearLayout>
 
 

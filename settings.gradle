@@ -17,3 +17,5 @@ rootProject.name = "mydemo"
 include ':app'
 include ':mylibrary'
 ext.kotlin_version = '2.0.1'
+include ':myupdate'
+include ':myweather'

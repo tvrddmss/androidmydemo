@@ -9,15 +9,10 @@ import android.view.ViewGroup
 import android.view.Window
 import android.widget.ImageView
 import android.widget.TextView
-import android.window.OnBackInvokedDispatcher
-import androidx.core.os.BuildCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.google.android.material.color.MaterialColors
-import com.google.android.material.transition.platform.MaterialContainerTransform
-import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback
 import esa.mydemo.R
 import esa.mydemo.base.AppBaseActivity
 import esa.mydemo.databinding.ActivityUiListBinding
@@ -52,7 +47,7 @@ class UiListActivity : AppBaseActivity() {
     override fun onResume() {
         super.onResume()
 //        binding.myRecyclerView.showHeader()
-        binding.myRecyclerView.refresh()
+//        binding.myRecyclerView.refresh()
     }
 
     fun init() {

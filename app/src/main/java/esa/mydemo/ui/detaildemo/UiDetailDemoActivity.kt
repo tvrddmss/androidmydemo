@@ -1,17 +1,11 @@
 package esa.mydemo.ui.detaildemo
 
 import android.os.Bundle
-import android.view.Gravity
 import android.view.View
-import android.view.ViewGroup
-import android.widget.ActionMenuView
-import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomappbar.BottomAppBar.FAB_ALIGNMENT_MODE_CENTER
 import com.google.android.material.bottomappbar.BottomAppBar.FAB_ALIGNMENT_MODE_END
-import com.google.android.material.bottomappbar.BottomAppBar.FabAlignmentMode
 import com.google.android.material.snackbar.Snackbar
-import esa.mydemo.R
 import esa.mydemo.base.AppBaseActivity
 import esa.mydemo.databinding.ActivityUiDetailDemoBinding
 import esa.mylibrary.info.DeviceInfo

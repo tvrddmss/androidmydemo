@@ -21,6 +21,35 @@
                 android:orientation="vertical"
                 android:padding="10dp">
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="imageview"
+                        android:textSize="20dp" />
+
+                    <esa.mylibrary.uicomponent.Line
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginLeft="0dp" />
+
+                    <esa.mylibrary.uicomponent.RoundedLinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingLeft="20dp"
+                        android:paddingTop="5dp"
+                        android:paddingRight="20dp"
+                        android:paddingBottom="5dp">
+
+                </esa.mylibrary.uicomponent.RoundedLinearLayout>
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"

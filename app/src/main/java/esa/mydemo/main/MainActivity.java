@@ -3,26 +3,23 @@ package esa.mydemo.main;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.Window;
-import android.view.animation.AnimationUtils;
-
-import com.google.android.material.bottomappbar.BottomAppBar;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationBarView;
-import com.google.android.material.transition.MaterialSharedAxis;
-import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.Toolbar;
 import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
 import androidx.databinding.DataBindingUtil;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
+import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback;
+
 import esa.mydemo.BR;
 import esa.mydemo.R;
 import esa.mydemo.base.AppBaseActivity;
 import esa.mydemo.databinding.MainActivityMainBinding;
-import esa.mydemo.fragment.MyProfileFragment;
-import esa.mydemo.ui.fragment.UiMenuFragment;
-import esa.mylibrary.fragment.ListFragment;
+import esa.mydemo.fragment.headerdemo.MyComplexMotion;
+import esa.mydemo.fragment.menu.UiMenuFragment;
+import esa.mydemo.fragment.myprofile.MyProfileFragment;
 import esa.mylibrary.fragment.OsmFragment;
 import esa.mylibrary.info.DeviceInfo;
 import esa.mylibrary.info.UserInfo;
@@ -49,7 +46,6 @@ public class MainActivity extends AppBaseActivity {
         getWindow().setSharedElementsUseOverlay(false);
 
 
-
 //        setContentView(R.layout.main_activity_main);
         //取消补间动画
 //        overridePendingTransition(0, 0);
@@ -58,8 +54,6 @@ public class MainActivity extends AppBaseActivity {
 //        setStatusDarkColor(true);
 
         isDoubleClickExit = false;
-
-
 
 
         //状态栏透明，不占位
@@ -127,21 +121,23 @@ public class MainActivity extends AppBaseActivity {
 
         androidx.fragment.app.FragmentTransaction ft;
 
+        MyComplexMotion myComplexMotion = new MyComplexMotion();
         UiMenuFragment uiMenuFragment = new UiMenuFragment();
+        MyProfileFragment myProfileFragment = new MyProfileFragment();
 
 
         private void hideAll() {
             if (OsmFragment.getInstance().isAdded()) {
                 ft.hide(OsmFragment.getInstance());
             }
-            if (ListFragment.getInstance().isAdded()) {
-                ft.hide(ListFragment.getInstance());
+            if (myComplexMotion.isAdded()) {
+                ft.hide(myComplexMotion);
             }
             if (uiMenuFragment.isAdded()) {
                 ft.hide(uiMenuFragment);
             }
-            if (MyProfileFragment.getInstance().isAdded()) {
-                ft.hide(MyProfileFragment.getInstance());
+            if (myProfileFragment.isAdded()) {
+                ft.hide(myProfileFragment);
             }
         }
 
@@ -172,10 +168,10 @@ public class MainActivity extends AppBaseActivity {
 //                    startActivity(intent);
 
                     hideAll();
-                    if (!ListFragment.getInstance().isAdded()) {
-                        ft.add(R.id.fragement, ListFragment.getInstance());//.addToBackStack("");
+                    if (!myComplexMotion.isAdded()) {
+                        ft.add(R.id.fragement, myComplexMotion);//.addToBackStack("");
                     }
-                    ft.show(ListFragment.getInstance());
+                    ft.show(myComplexMotion);
                     break;
                 case R.id.navigation_menufragment:
 //                            showMessage("home");
@@ -187,10 +183,10 @@ public class MainActivity extends AppBaseActivity {
                     break;
                 case R.id.navigation_account:
                     hideAll();
-                    if (!MyProfileFragment.getInstance().isAdded()) {
-                        ft.add(R.id.fragement, MyProfileFragment.getInstance());//.addToBackStack("");
+                    if (!myProfileFragment.isAdded()) {
+                        ft.add(R.id.fragement, myProfileFragment);//.addToBackStack("");
                     }
-                    ft.show(MyProfileFragment.getInstance());
+                    ft.show(myProfileFragment);
                     break;
             }
             ft.commit();

@@ -4,14 +4,15 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
 
-import java.util.Locale;
-
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.EditTextPreference;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
+
+import java.util.Locale;
+
 import esa.mydemo.MyApplication;
 import esa.mydemo.R;
 import esa.mylibrary.language.LanguageHelper;

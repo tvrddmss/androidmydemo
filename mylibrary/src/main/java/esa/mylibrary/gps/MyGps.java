@@ -5,18 +5,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
-import android.location.GpsSatellite;
-import android.location.GpsStatus;
+import android.location.GnssStatus;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Observable;
 
 import esa.mylibrary.common.CallBack;
@@ -41,6 +39,7 @@ public class MyGps extends Observable {
 
     //当前位置
     private Location location;
+
 
     /**
      * 静态内部类单例
@@ -81,6 +80,7 @@ public class MyGps extends Observable {
             askLocationSettings(context);
             return;
         }
+        initiative(context);
         //定义监听
         locationListener = new LocationListener() {
             /**
@@ -148,10 +148,23 @@ public class MyGps extends Observable {
         crt.setHorizontalAccuracy(Criteria.ACCURACY_HIGH);    // 水平精度高
         crt.setAltitudeRequired(true);                        // 需要高度
         String provider = lm.getBestProvider(crt, true);    // 寻找最匹配的provider
+
         location = lm.getLastKnownLocation(provider);    // 取最后已知位置，即缓存中的位置
 //        if (l != null) tvResult.append(provider + "-LastKnown:" + l.toString() + "\n");
         long period = Long.parseLong("1");        // 最小时间间隔
         int distance = Integer.parseInt("1");    // 最小距离
+
+        //如果未获取定位信息，说明当前无法获取GPS信号，所以调用NewWork的定位服务，同时也调用GPS的
+        if (location == null) {
+            LocationProvider networkProvider = lm.getProvider(LocationManager.NETWORK_PROVIDER);
+            lm.requestLocationUpdates(networkProvider.getName(), period * 2000, distance, new LocationListener() {
+                @Override
+                public void onLocationChanged(@NonNull Location location1) {
+
+                    location = location1;
+                }
+            });
+        }
         lm.requestLocationUpdates(provider, period * 1000, distance, locationListener);    // 开始监听
 //        tvResult.append(provider + "-Location listener started.\n");
 
@@ -209,7 +222,14 @@ public class MyGps extends Observable {
     }
 
 
+    public int cn0DbHz30SatelliteCount = 0;
+    public int cn0DbHz37SatelliteCount = 0;
+
     public void initiative(Context context) {
+
+//注册监听
+//        LocationManagerCompat.registerGnssStatusCallback(lm, gnssStatusListener, new Handler(Looper.myLooper()));
+
 
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
@@ -221,42 +241,178 @@ public class MyGps extends Observable {
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
-        //实例化
-        GpsStatus gpsStatus = lm.getGpsStatus(null); // 获取当前状态
-        // 获取默认最大卫星数
-        int maxSatellites = gpsStatus.getMaxSatellites();
-        //获取第一次定位时间（启动到第一次定位）
-        int costTime = gpsStatus.getTimeToFirstFix();
-        //获取卫星
-        Iterable<GpsSatellite> iterable = gpsStatus.getSatellites();
-        //一般再次转换成Iterator
-        Iterator<GpsSatellite> itrator = iterable.iterator();
 
-        //通过遍历重新整理为ArrayList
-        ArrayList<GpsSatellite> satelliteList = new ArrayList<GpsSatellite>();
-        int count = 0;
-        while (itrator.hasNext() && count <= maxSatellites) {
-            GpsSatellite satellite = itrator.next();
-            satelliteList.add(satellite);
-            count++;
+        lm.registerGnssStatusCallback(new android.location.GnssStatus.Callback() {
+            public void onSatelliteStatusChanged(GnssStatus status) {
+                super.onSatelliteStatusChanged(status);
+
+                // 可以搜索到的卫星总数
+                int satelliteCount = status.getSatelliteCount();
+
+                var satelliteInfo = "";
+                for (int index = 0; index < satelliteCount; index++) {
+                    // 每个卫星的载波噪声密度
+//                    float cn0DbHz = status.getCn0DbHz(index);
+                    float cn0DbHz = status.getCn0DbHz(index);
+                    if (cn0DbHz >= 30) {
+                        cn0DbHz30SatelliteCount++;
+                    }
+                    if (cn0DbHz >= 37) {
+                        cn0DbHz37SatelliteCount++;
+                    }
+                }
+
+                //被观察者的通知更新
+                setChanged();
+                notifyObservers();
+
+
+            }
+        });
+
+//
+//        //实例化
+//        GpsStatus gpsStatus = lm.getGpsStatus(null); // 获取当前状态
+//        // 获取默认最大卫星数
+//        int maxSatellites = gpsStatus.getMaxSatellites();
+//        //获取第一次定位时间（启动到第一次定位）
+//        int costTime = gpsStatus.getTimeToFirstFix();
+//        //获取卫星
+//        Iterable<GpsSatellite> iterable = gpsStatus.getSatellites();
+//        //一般再次转换成Iterator
+//        Iterator<GpsSatellite> itrator = iterable.iterator();
+//
+//        //通过遍历重新整理为ArrayList
+//        ArrayList<GpsSatellite> satelliteList = new ArrayList<GpsSatellite>();
+//        int count = 0;
+//        while (itrator.hasNext() && count <= maxSatellites) {
+//            GpsSatellite satellite = itrator.next();
+//            satelliteList.add(satellite);
+//            count++;
+//        }
+//        System.out.println("总共搜索到" + count + "颗卫星");
+//        //输出卫星信息
+//        for (int i = 0; i < satelliteList.size(); i++) {
+//            //卫星的方位角，浮点型数据
+//            System.out.println(satelliteList.get(i).getAzimuth());
+//            //卫星的高度，浮点型数据
+//            System.out.println(satelliteList.get(i).getElevation());
+//            //卫星的伪随机噪声码，整形数据
+//            System.out.println(satelliteList.get(i).getPrn());
+//            //卫星的信噪比，浮点型数据
+//            System.out.println(satelliteList.get(i).getSnr());
+//            //卫星是否有年历表，布尔型数据
+//            System.out.println(satelliteList.get(i).hasAlmanac());
+//            //卫星是否有星历表，布尔型数据
+//            System.out.println(satelliteList.get(i).hasEphemeris());
+//            //卫星是否被用于近期的GPS修正计算
+//            System.out.println(satelliteList.get(i).hasAlmanac());
+//        }
+    }
+
+
+    /**
+     * 将经纬度转换为度分秒格式
+     *
+     * @param du 116.41884740.0897315
+     * @return 116°25'7.85"       40°5'23.03"
+     */
+    public String latLng2DfmForExif(double du) {
+        int du1 = (int) du;
+        double tp = (du - du1) * 60;
+        int fen = (int) tp;
+        String miao = (Math.abs(((tp - fen) * 60)) * 1000000) + "";
+        return du1 + "/1," + Math.abs(fen) + "/1," + miao + "/1000000";
+    }
+
+
+    /**
+     * 将经纬度转换为度分秒格式
+     *
+     * @param du 116.41884740.0897315
+     * @return 116°25'7.85"       40°5'23.03"
+     */
+    public String latLng2Dfm(double du) {
+        int du1 = (int) du;
+        double tp = (du - du1) * 60;
+        int fen = (int) tp;
+        String miao = String.format("%.2f", Math.abs(((tp - fen) * 60)));
+        return du1 + "°" + Math.abs(fen) + "'" + miao + "\"";
+    }
+
+    /**
+     * 度分秒转经纬度
+     *
+     * @param dms 116°25'7.85"
+     * @return 116.418847
+     */
+    public double dfm2LatLng(String dms) {
+        if (dms == null) return 0;
+        try {
+            dms = dms.replace(" ", "");
+            String[] str2 = dms.split("°");
+            if (str2.length < 2) return 0;
+            int d = Integer.parseInt(str2[0]);
+            String[] str3 = str2[1].split("\'");
+            if (str3.length < 2) return 0;
+            int f = Integer.parseInt(str3[0]);
+            String str4 = str3[1].substring(0, str3[1].length() - 1);
+            double m = Double.parseDouble(str4);
+
+            double fen = f + (m / 60);
+            double du = (fen / 60) + Math.abs(d);
+            if (d < 0) du = -du;
+            return Double.parseDouble(String.format("%.7f", du));
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        System.out.println("总共搜索到" + count + "颗卫星");
-        //输出卫星信息
-        for (int i = 0; i < satelliteList.size(); i++) {
-            //卫星的方位角，浮点型数据
-            System.out.println(satelliteList.get(i).getAzimuth());
-            //卫星的高度，浮点型数据
-            System.out.println(satelliteList.get(i).getElevation());
-            //卫星的伪随机噪声码，整形数据
-            System.out.println(satelliteList.get(i).getPrn());
-            //卫星的信噪比，浮点型数据
-            System.out.println(satelliteList.get(i).getSnr());
-            //卫星是否有年历表，布尔型数据
-            System.out.println(satelliteList.get(i).hasAlmanac());
-            //卫星是否有星历表，布尔型数据
-            System.out.println(satelliteList.get(i).hasEphemeris());
-            //卫星是否被用于近期的GPS修正计算
-            System.out.println(satelliteList.get(i).hasAlmanac());
+        return 0;
+    }
+
+    /**
+     * 将经纬度转换为度分格式
+     *
+     * @param du 116.418847      40.0897315
+     * @return 116°25'  40°5'
+     */
+    private String latLng2Df(double du) {
+        int du1 = (int) du;
+        double tp = (du - du1) * 60;
+        int fen = (int) tp;
+        return du1 + "°" + Math.abs(fen) + "'";
+    }
+
+    /**
+     * 度分转经纬度
+     * 全球经纬度的取值范围为：纬度-90~90，经度-180~180
+     * 度分转换： 将度分单位数据转换为度单位数据，公式：度=度+分/60
+     * 例如： 经度 = 116°20.12'，纬度 = 39°12.34'
+     * 经度 = 116 + 20.12 / 60 = 116.33533°
+     * 纬度 = 39 + 12.34 / 60 = 39.20567°
+     *
+     * @param dm 4005.38389 ddmm.mmmmm
+     * @return 40.0897315
+     * 11616.02846 dddmm.mmmmm
+     * 116.267141
+     */
+    public double df2LatLng(String dm) {
+        if (dm == null) {
+            return 0;
         }
+        try {
+            dm = dm.replace(" ", "");
+            int d = Integer.parseInt(dm.substring(0, dm.lastIndexOf(".") - 2));
+            // 兼容经纬度的转换
+            double fen = Double.parseDouble(dm.substring(String.valueOf(d).length()));
+
+            double lat = (fen / 60) + Math.abs(d);
+            if (lat < 0) {
+                lat = -lat;
+            }
+            return Double.parseDouble(String.format("%.7f", lat));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 }

@@ -6,12 +6,13 @@ import android.net.Uri;
 import android.os.Build;
 import android.widget.Toast;
 
+import androidx.core.content.FileProvider;
+
 import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
 
-import androidx.core.content.FileProvider;
 import esa.mylibrary.api.ApiCallBack;
 import esa.mylibrary.api.FileDownLoad;
 import esa.mylibrary.api.Http;
@@ -69,7 +70,7 @@ public class Platform {
                     try {
                         JSONObject jsonObject = (JSONObject) MyJson.parse(o.toString());
                         if (jsonObject.getString("update").equals("true")) {
-                            AppInfo.apkurl = jsonObject.getString("apkUrl");
+                            AppInfo.apkurl = jsonObject.getString("url");
                             Comfirm.Comfirm(context, "有新版本，请下载安装！", new CallBack() {
                                 @Override
                                 public void success(Object o) {
@@ -128,6 +129,8 @@ public class Platform {
      */
     public static void installApp(Context context, File appFile) {
         try {
+            //提示
+            Toast.makeText(context, "开始更新", Toast.LENGTH_LONG).show();
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             if (!appFile.exists()) {

@@ -5,7 +5,6 @@ import android.graphics.Typeface
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import java.util.Locale
 
 
 //import com.joanzapata.iconify.Iconify
@@ -29,8 +28,6 @@ object MyIcon {
 //        return view
 //    }
 
-    const val ROOT = "fonts/"
-    const val FONTAWESOME = ROOT + "iconfont.ttf"
     fun getTypeface(context: Context, font: String?): Typeface? {
         return Typeface.createFromAsset(context.assets, font)
     }

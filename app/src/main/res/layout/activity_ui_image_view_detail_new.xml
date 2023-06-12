@@ -1,0 +1,44 @@
+<androidx.constraintlayout.motion.widget.MotionLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mol"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layoutDescription="@xml/activity_ui_image_view_detail_new_scene"
+    tools:context=".ui.imageview.UiImageViewDetailNewActivity">
+
+    <ImageView
+        android:id="@+id/text1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <ImageView
+        android:id="@+id/text2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+
+    <ImageView
+        android:id="@+id/text3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+
+    <ImageView
+        android:id="@+id/text4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <androidx.constraintlayout.helper.widget.Carousel
+        android:id="@+id/carousel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:carousel_forwardTransition="@+id/right"
+        app:carousel_backwardTransition="@+id/left"
+        app:carousel_previousState="@+id/right"
+        app:carousel_nextState="@+id/left"
+        app:carousel_infinite="true"
+        app:carousel_firstView="@+id/text1"
+        app:constraint_referenced_ids="text1,text2,text3,text4" />
+</androidx.constraintlayout.motion.widget.MotionLayout>

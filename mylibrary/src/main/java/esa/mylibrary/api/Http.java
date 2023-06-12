@@ -72,6 +72,8 @@ public class Http {
             httpDoParameter.mainThread = Thread.currentThread();
             Thread thread = new Thread(() -> httpDo.run(httpDoParameter));
             thread.start();
+
+
         } catch (Exception ex) {
             MyLog.e(ex.getMessage());
         }

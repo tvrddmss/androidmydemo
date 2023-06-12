@@ -12,7 +12,7 @@ import java.io.InputStream;
 
 import esa.mylibrary.utils.log.MyLog;
 
-public class AssetManagerTool {
+public class    AssetManagerTool {
 
     public static Bitmap GetIcon(Context context, String name) throws IOException {
 
@@ -71,6 +71,7 @@ public class AssetManagerTool {
         try {
 
             AssetManager assetManager = context.getAssets();
+
             AssetFileDescriptor assetFileDescriptor = assetManager.openFd("sound/buttonsound.mp3");
             if (assetFileDescriptor != null) {
                 if (mp == null) {

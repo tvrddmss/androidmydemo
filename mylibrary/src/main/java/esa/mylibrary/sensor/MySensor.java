@@ -157,6 +157,16 @@ public class MySensor extends Observable {
      * @time 2023/04/04 16:52
      */
     private void updateView() {
+        //竖屏
+        angle = (float) ((360f + values[0] * 180f / Math.PI) % 360);
+
+        //判断是否有翻转
+        //取绝对值
+        float v2 = (values[2] < 0) ? -values[2] : values[2];
+        if (v2 > Math.PI / 2) {
+            angle = (angle + 180) % 360;
+        }
+
         //被观察者的通知更新
         setChanged();
         notifyObservers();

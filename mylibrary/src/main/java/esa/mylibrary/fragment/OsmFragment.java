@@ -138,14 +138,7 @@ public class OsmFragment extends BaseFragment implements Observer {
             case "esa.mylibrary.sensor.MySensor": {
                 MySensor mySensor = (MySensor) o;
                 //竖屏
-                float angle = (float) ((360f + mySensor.values[0] * 180f / Math.PI) % 360);
-
-                //判断是否有翻转
-                //取绝对值
-                float v2 = (mySensor.values[2] < 0) ? -mySensor.values[2] : mySensor.values[2];
-                if (v2 > Math.PI / 2) {
-                    angle = (angle + 180) % 360;
-                }
+                float angle = mySensor.angle;
                 String text = String.format("%.2f", mySensor.values[0]) + " "
                         + String.format("%.2f", mySensor.values[1]) + " "
                         + String.format("%.2f", mySensor.values[2]);
@@ -190,6 +183,8 @@ public class OsmFragment extends BaseFragment implements Observer {
                     .replace("【Altitude】", String.format("%.4f", location.getAltitude()));
         }
         text = text.replace("【Direction】", mViewModel.angle.getValue());
+
+        text += "\r\n卫星：" + MyGps.getInstance().cn0DbHz30SatelliteCount + "，" + MyGps.getInstance().cn0DbHz37SatelliteCount;
 
         mViewModel.bottomInfo.postValue(text);
     }

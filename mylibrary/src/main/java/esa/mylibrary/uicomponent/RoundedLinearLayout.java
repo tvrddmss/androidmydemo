@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import androidx.annotation.Nullable;
 
 import esa.mylibrary.R;
+import esa.mylibrary.utils.DensityUtil;
 
 /**
  * @ProjectName: mydemo
@@ -25,30 +26,32 @@ import esa.mylibrary.R;
  * @Version: 1.0
  */
 public class RoundedLinearLayout extends LinearLayout {
+
+
     public RoundedLinearLayout(Context context) {
         super(context);
-        init();
+        init(context);
     }
 
 
     public RoundedLinearLayout(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        init();
+        init(context);
     }
 
     public RoundedLinearLayout(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init();
+        init(context);
     }
 
     public RoundedLinearLayout(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
-        init();
+        init(context);
 
     }
 
 
-    private void init() {
+    private void init(Context context) {
         this.setOutlineProvider(new ViewOutlineProvider() {
             @Override
             public void getOutline(View view, Outline outline) {
@@ -57,6 +60,7 @@ public class RoundedLinearLayout extends LinearLayout {
         });
         this.setClipToOutline(true);
 
+        this.setMinimumHeight(DensityUtil.INSTANCE.dip2px(context,40));
         GradientDrawable gradientDrawable1 = new GradientDrawable();// 形状-圆角矩形
         gradientDrawable1.setShape(GradientDrawable.RECTANGLE);// 圆角
         gradientDrawable1.setCornerRadius(20);

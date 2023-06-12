@@ -1,7 +1,6 @@
 package esa.mylibrary.info;
 
 import android.app.Activity;
-import android.app.Application;
 import android.graphics.Rect;
 import android.os.Build;
 import android.util.DisplayMetrics;

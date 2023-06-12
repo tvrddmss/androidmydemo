@@ -1,5 +1,6 @@
 package esa.mydemo.dal.spring
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -7,16 +8,15 @@ import android.os.Build
 import android.widget.Toast
 import androidx.core.content.FileProvider
 import esa.mylibrary.api.ApiCallBack
-import esa.mylibrary.api.FileDownLoad
 import esa.mylibrary.api.Http
 import esa.mylibrary.common.CallBack
-import esa.mylibrary.common.Comfirm
 import esa.mylibrary.config.Config
 import esa.mylibrary.info.AppInfo
 import esa.mylibrary.info.CodeInfo
 import esa.mylibrary.info.UserInfo
 import esa.mylibrary.utils.MyJson
 import esa.mylibrary.utils.log.MyLog
+import esa.myupdate.utils.CheckUpdate.checkUpdate
 import org.json.JSONObject
 import java.io.File
 import java.io.IOException
@@ -49,55 +49,100 @@ object PlatformForSpring {
      * @time 2023/03/29 15:05
      */
     @JvmStatic
-    fun checkVersion(context: Context?, callBack: CallBack<*>) {
+    fun checkVersion(activity: Activity, callBack: CallBack<*>) {
         val url = baseUrl + "selectMaxVersionCode"
         try {
             //app版本对比
             val data = JSONObject()
             //            data.put("name", AppInfo.appnameen);
-//            data.put("version", AppInfo.appVersionName);
-//            data.put("deviceTypeString", DeviceInfo.platform);
-//            data.put("clientInf", UserInfo.getClientInfo());
             Config.api.project = "api"
             Http.get(url, data, object : ApiCallBack<Any?>() {
                 override fun onSuccess(o: Any?) {
                     try {
                         val jsonObject = MyJson.parse(o.toString()) as JSONObject
                         if (jsonObject.getLong("versionCode") != AppInfo.appVersionCode) {
-                            AppInfo.apkurl = jsonObject.getString("version")
-                            Comfirm.Comfirm(context, "有新版本，请下载安装！", object : CallBack<Any?>() {
-                                override fun success(o: Any?) {
-                                    FileDownLoad.downloadFile(
-                                        context,
-                                        AppInfo.apkurl,
-                                        object : CallBack<Any?>() {
-                                            override fun success(o: Any?) {
-//                                            installApp(context, (File) o);
-                                                callBack.success(o as Nothing?)
-                                            }
+                            AppInfo.apkurl = jsonObject.getString("url")
+                            if (AppInfo.apkurl !== "") {
+                                val content = arrayOf(
+                                    jsonObject.getString("description"),
+                                    jsonObject.getString("note")
+                                )
 
-                                            override fun error(message: String) {
-//                                            Config.showErrorMessage(url + "APK下载错误：" + message);
-                                                callBack.error(
-                                                    """
-                                                ${PlatformForSpring::class.java.name}
-                                                ${AppInfo.apkurl},
-                                                APK下载错误！$message
-                                                """.trimIndent()
-                                                )
-                                            }
-                                        })
-                                }
+                                checkUpdate(
+                                    activity,
+                                    AppInfo.apkurl,
+                                    content, false,
+                                    jsonObject.getString("version"),
+                                    "新版本标题"
+                                )
+                            }
+                            callBack.success(null)
 
-                                override fun error(message: String) {
-                                    AppInfo.apkurl = ""
-                                    callBack.success(null)
-                                }
-                            })
                         } else if (jsonObject.getLong("dataDictionartyVersion") != CodeInfo.codeVersion.toLong()) {
                             MyLog.d("获取数据字典")
                             AppInfo.apkurl = ""
                             callBack.success(null)
+                        } else {
+                            AppInfo.apkurl = ""
+                            callBack.success(null)
+                        }
+                    } catch (ex: Exception) {
+                        callBack.error(
+                            """
+                                ${PlatformForSpring::class.java.name}
+                                $url,
+                                网络请求结果解析失败！${ex.message}
+                                """.trimIndent()
+                        )
+                    }
+                }
+
+                override fun onError(code: Int) {
+                    callBack.error(
+                        """
+                            ${PlatformForSpring::class.java.name}
+                            $url,
+                            网络请求错误！错误编码：$code
+                            """.trimIndent()
+                    )
+                }
+
+                override fun onFailure(e: IOException) {
+                    callBack.error(
+                        """
+                            ${PlatformForSpring::class.java.name}
+                            $url,
+                            网络请求失败！失败：$e
+                            """.trimIndent()
+                    )
+                }
+            })
+        } catch (ex: Exception) {
+            callBack.error(
+                """
+                    ${PlatformForSpring::class.java.name}
+                    $url,
+                    ,报错：${ex.message}
+                    """.trimIndent()
+            )
+        }
+    }
+
+    @JvmStatic
+    fun getNewVersionUrl(context: Context?, callBack: CallBack<Any?>) {
+        var apkUrl = ""
+        val url = baseUrl + "selectMaxVersionCode"
+        try {
+            //app版本对比
+            val data = JSONObject()
+            Config.api.project = "api"
+            Http.get(url, data, object : ApiCallBack<Any?>() {
+                override fun onSuccess(o: Any?) {
+                    try {
+                        val jsonObject = MyJson.parse(o.toString()) as JSONObject
+                        if (jsonObject.getLong("versionCode") != AppInfo.appVersionCode) {
+                            AppInfo.apkurl = jsonObject.getString("url")
+                            callBack.success(jsonObject)
                         } else {
                             AppInfo.apkurl = ""
                             callBack.success(null)

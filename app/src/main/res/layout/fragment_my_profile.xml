@@ -1,270 +1,314 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
-
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollViewContent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        tools:context=".fragment.MyProfileFragment">
+       app:layout_behavior="@string/appbar_scrolling_view_behavior" >
 
         <LinearLayout
-            android:id="@+id/contentHeader"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:background="@drawable/profile_title_background"
-            android:elevation="5dp"
-            android:orientation="vertical"
-            android:paddingLeft="10dp"
-            android:paddingTop="10dp"
-            android:paddingRight="10dp"
-            android:translationZ="5dp">
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/default_margin_left_right"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="0dp"
-                    android:text="@{viewModel.title}"
-                    android:textColor="?android:attr/textColorHighlightInverse"
-                    android:textSize="26sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/ic_baseline_account_box_24" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="10dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@{viewModel.userName}"
-                        android:textColor="?android:attr/textColorHighlightInverse"></TextView>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@{viewModel.userId}"
-                        android:textColor="?android:attr/textColorHighlightInverse"></TextView>
-                </LinearLayout>
-
-                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:text="设置"
+                    android:textSize="20dp" />
 
-                    <Button
-                        android:layout_width="80dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="10dp"
-                        android:text="编辑"
-                        android:visibility="gone"></Button>
+                <esa.mylibrary.uicomponent.Line
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="0dp" />
 
-                    <Button
-                        android:layout_width="80dp"
+                <esa.mylibrary.uicomponent.RoundedLinearLayout
+                    android:id="@+id/rounded_edit_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:gravity="center_vertical"
+                    android:minHeight="@dimen/default_row_linelayout_min_height"
+                    android:orientation="horizontal"
+                    android:paddingLeft="20dp"
+                    android:paddingTop="5dp"
+                    android:paddingRight="20dp"
+                    android:paddingBottom="5dp">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/ic_baseline_lock_24" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:onClick="@{(view)->viewModel.onLogoutClick(view)}"
-                        android:text="退出"></Button>
-                </LinearLayout>
+                        android:layout_weight="1" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="修改密码" />
+                </esa.mylibrary.uicomponent.RoundedLinearLayout>
+
+                <esa.mylibrary.uicomponent.RoundedLinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:gravity="center_vertical"
+                    android:minHeight="@dimen/default_row_linelayout_min_height"
+                    android:orientation="horizontal"
+                    android:paddingLeft="20dp"
+                    android:paddingTop="5dp"
+                    android:paddingRight="20dp"
+                    android:paddingBottom="5dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="开关样例" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:checked="true"
+                        android:enabled="true"
+                        android:text="我是SwitchMaterial"
+                        android:textOff="关"
+                        android:textOn="开"
+                        app:showText="true"
+                        app:theme="@style/ontextoff" />
+                </esa.mylibrary.uicomponent.RoundedLinearLayout>
+
+                <esa.mylibrary.uicomponent.RoundedLinearLayout
+                    android:id="@+id/ll_checkUpdate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:gravity="center_vertical"
+                    android:minHeight="@dimen/default_row_linelayout_min_height"
+                    android:orientation="horizontal"
+                    android:paddingLeft="20dp"
+                    android:paddingTop="5dp"
+                    android:paddingRight="20dp"
+                    android:paddingBottom="5dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="检查更新" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        android:id="@+id/tv_appversion"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </esa.mylibrary.uicomponent.RoundedLinearLayout>
+
+                <esa.mylibrary.uicomponent.RoundedLinearLayout
+                    android:id="@+id/ll_weather"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:minHeight="@dimen/default_row_linelayout_min_height"
+                    android:orientation="vertical"
+                    android:paddingLeft="20dp"
+                    android:paddingTop="10dp"
+                    android:paddingRight="20dp"
+                    android:paddingBottom="10dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="天气" />
+
+
+                    <TextView
+                        android:id="@+id/tv_weather"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="" />
+                </esa.mylibrary.uicomponent.RoundedLinearLayout>
+
             </LinearLayout>
 
-        </LinearLayout>
-
-
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
-                android:orientation="vertical"
-                android:padding="10dp">
+                android:orientation="vertical">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:text="设备参数"
+                    android:textSize="20dp" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="设置"
-                        android:textSize="20dp" />
-
-                    <esa.mylibrary.uicomponent.Line
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginLeft="0dp" />
-
-                    <esa.mylibrary.uicomponent.RoundedLinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:gravity="center_vertical"
-                        android:onClick="@{(view)->viewModel.onEditPasswordClick(view)}"
-                        android:orientation="horizontal"
-                        android:paddingLeft="20dp"
-                        android:paddingTop="5dp"
-                        android:paddingRight="20dp"
-                        android:paddingBottom="5dp">
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:src="@drawable/ic_baseline_lock_24" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="修改密码" />
-                    </esa.mylibrary.uicomponent.RoundedLinearLayout>
-
-                    <esa.mylibrary.uicomponent.RoundedLinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:layout_margin="5dp"
-                        android:gravity="center_vertical"
-                        android:onClick="@{(view)->viewModel.onEditPasswordClick(view)}"
-                        android:orientation="horizontal"
-                        android:paddingLeft="20dp"
-                        android:paddingTop="5dp"
-                        android:paddingRight="20dp"
-                        android:paddingBottom="5dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="开关样例" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1" />
-
-                        <com.google.android.material.switchmaterial.SwitchMaterial
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:checked="true"
-                            android:enabled="true"
-                            android:text="我是SwitchMaterial"
-                            android:textOff="关"
-                            android:textOn="开"
-                            app:showText="true"
-                            app:theme="@style/ontextoff"/>
-                    </esa.mylibrary.uicomponent.RoundedLinearLayout>
-                </LinearLayout>
-
-
-                <LinearLayout
+                <esa.mylibrary.uicomponent.Line
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="设备参数"
-                        android:textSize="20dp" />
-
-                    <esa.mylibrary.uicomponent.Line
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginLeft="0dp" />
-
-                    <esa.mylibrary.uicomponent.RoundedLinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:paddingLeft="20dp"
-                        android:paddingTop="5dp"
-                        android:paddingRight="20dp"
-                        android:paddingBottom="5dp">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@{viewModel.devInfo}" />
-                    </esa.mylibrary.uicomponent.RoundedLinearLayout>
-                </LinearLayout>
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="用户详细信息"
-                        android:textSize="20dp" />
-
-                    <esa.mylibrary.uicomponent.Line
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginLeft="0dp" />
-
-                    <esa.mylibrary.uicomponent.RoundedLinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:paddingLeft="20dp"
-                        android:paddingTop="5dp"
-                        android:paddingRight="20dp"
-                        android:paddingBottom="5dp">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@{viewModel.userInfo}" />
-
-                    </esa.mylibrary.uicomponent.RoundedLinearLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="10dp"
+                    android:layout_height="1dp"
                     android:layout_marginLeft="0dp" />
 
+                <esa.mylibrary.uicomponent.RoundedLinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingLeft="20dp"
+                    android:paddingTop="5dp"
+                    android:paddingRight="20dp"
+                    android:paddingBottom="5dp">
+
+                    <TextView
+                        android:id="@+id/tv_devInfo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </esa.mylibrary.uicomponent.RoundedLinearLayout>
             </LinearLayout>
-        </ScrollView>
-    </LinearLayout>
 
-    <data>
 
-        <variable
-            name="viewModel"
-            type="esa.mydemo.fragment.MyProfileViewModel" />
-    </data>
-</layout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="用户详细信息"
+                    android:textSize="20dp" />
+
+                <esa.mylibrary.uicomponent.Line
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="0dp" />
+
+                <esa.mylibrary.uicomponent.RoundedLinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingLeft="20dp"
+                    android:paddingTop="5dp"
+                    android:paddingRight="20dp"
+                    android:paddingBottom="5dp">
+
+                    <TextView
+                        android:id="@+id/tvUserInfo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </esa.mylibrary.uicomponent.RoundedLinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:layout_marginLeft="0dp" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+<!--        <include layout="@layout/fragment_my_profile_header" android:id="@+id/includeHeader"/>-->
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:fitsSystemWindows="true"
+            android:background="@drawable/profile_title_background"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+            <LinearLayout
+                android:id="@+id/contentHeader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:elevation="5dp"
+                android:gravity="center_vertical"
+                android:minHeight="30dp"
+                android:orientation="vertical"
+                android:translationZ="5dp">
+
+
+                <TextView
+                    android:id="@+id/tvTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/default_margin_left_right"
+                    android:layout_marginRight="@dimen/default_margin_left_right"
+                    android:textColor="@color/white"
+                    android:textSize="26sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/default_margin_left_right"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/ic_baseline_account_box_24" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="10dp">
+
+                        <TextView
+                            android:id="@+id/tvUserName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white" />
+
+                        <TextView
+                            android:id="@+id/tvUserId"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white" />
+                    </LinearLayout>
+
+                    <Button
+                        android:id="@+id/btnLogout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/default_button_heigth"
+                        android:text="退出"
+                        android:textSize="@dimen/default_button_textsize" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

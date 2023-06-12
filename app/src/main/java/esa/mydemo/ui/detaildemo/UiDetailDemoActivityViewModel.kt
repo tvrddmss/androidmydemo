@@ -1,7 +1,6 @@
 package esa.mydemo.ui.detaildemo
 
 import android.view.View
-import com.google.android.material.snackbar.Snackbar
 import esa.mydemo.base.BaseViewModel
 
 class UiDetailDemoActivityViewModel : BaseViewModel() {

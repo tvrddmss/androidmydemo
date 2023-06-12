@@ -5,28 +5,19 @@ import android.app.Application;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 
+import androidx.preference.PreferenceManager;
+
+import com.github.mikephil.charting.BuildConfig;
+
 import java.util.LinkedList;
 import java.util.List;
 
-import androidx.preference.PreferenceManager;
 import esa.mylibrary.config.Config;
 import esa.mylibrary.info.DeviceInfo;
 
 public class MyApplication extends Application {
-    private MyApplication instance;
 
     private List<Activity> activities;
-
-    /**
-     * 单例模式
-     *
-     * @return
-     */
-    public MyApplication getInstance() {
-        if (instance == null)
-            return new MyApplication();
-        return instance;
-    }
 
     /**
      * 在创建应用程序时调用，可以重写这个方法来实例化应用程序单态，以及创建和实例化任何应用

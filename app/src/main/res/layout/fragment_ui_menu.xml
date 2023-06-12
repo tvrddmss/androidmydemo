@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     android:transitionGroup="true"
-    tools:context=".ui.fragment.UiMenuFragment">
+    tools:context=".fragment.menu.UiMenuFragment">
 
     <ScrollView
         android:id="@+id/scrollView"
@@ -52,5 +52,5 @@
         android:layout_marginRight="10dp"
         app:backgroundTint="@color/main"
         app:pressedTranslationZ="10dp"/>
-    <include layout="@layout/fab_buttons"   android:id="@+id/fabs"/>
+    <include layout="@layout/fragment_ui_menu_fab_buttons"   android:id="@+id/fabs"/>
 </FrameLayout>

@@ -1,23 +1,12 @@
 <h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">Ape Frame</h1>
 <h4 align="center">android原生开发学习DEMO</h4>
-<p align="center">
-<a href='https://gitee.com/classicChickenWings/ape-frame/stargazers'>
-<img src='https://gitee.com/classicChickenWings/ape-frame/badge/star.svg?theme=dark' alt='star'>
-</a>
-<a href="https://gitee.com/classicChickenWings/ape-frame">
-<img src="https://img.shields.io/badge/version-v1.0-brightgreen.svg">
-</a>
-<a href="https://gitee.com/classicChickenWings/ape-frame">
-<img src="https://img.shields.io/badge/微信-jingdianjichi-brightgreen.svg">
-</a>
-</p>
 
 ## ✨项目简介
 mydemo 项目主要用于学习
 
 希望大家可以帮忙点点Star，您的Star就是对我最大的支持。
 
-## 🔥内置项目模块
+## 🔥模块
 ### mylibrary
 微服务模块更新中，目前具备以下模块
 * activity：activity父级基础窗口

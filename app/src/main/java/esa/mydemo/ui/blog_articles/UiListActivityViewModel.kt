@@ -37,12 +37,12 @@ class UiListActivityViewModel : AppBaseViewModel() {
     fun refresh() {
         count = 0
         index = 0
-        job = viewModelScope.launch {
+        viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 var data = call()
                 MyLog.d("数据查询结束")
                 if (isActive) {
-                    analysisResult(false, data)
+                    analysisResult(true, data)
                     MyLog.d("数据拼接结束")
                 }
             }
@@ -56,7 +56,7 @@ class UiListActivityViewModel : AppBaseViewModel() {
     }
 
     fun loadMore() {
-        job = viewModelScope.launch {
+        viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 var data = call()
                 MyLog.d("数据查询结束")
@@ -104,7 +104,11 @@ class UiListActivityViewModel : AppBaseViewModel() {
             }
             index = myAdapter.list.size() / step + 1
         } else {
-            throw Exception(data?.getData().toString())
+            if (data != null) {
+                throw Exception(data?.getData().toString())
+            } else {
+                throw Exception("发生错误")
+            }
         }
 
     }

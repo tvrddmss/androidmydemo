@@ -30,9 +30,6 @@ open class AppBaseViewModel : ViewModel() {
 
     private lateinit var context: Context
 
-    //IOjob
-    protected lateinit var job: Job
-
     /**
      * @description 初始化
      * @param null
@@ -123,10 +120,6 @@ open class AppBaseViewModel : ViewModel() {
     override fun onCleared() {
         super.onCleared()
         MyLog.d(this.javaClass.name + "viewmodel销毁")
-        if (this::job.isInitialized) {
-            job.cancel()
-            MyLog.d(this.javaClass.name + "Job取消")
-        }
     }
 
 

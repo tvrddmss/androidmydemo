@@ -47,8 +47,10 @@ class UiListActivity : AppBaseActivity() {
 
     override fun onResume() {
         super.onResume()
-//        binding.myRecyclerView.showHeader()
-//        binding.myRecyclerView.refresh()
+        if(this::viewModel.isInitialized)
+        {
+            viewModel.myAdapter.notifyDataSetChanged()
+        }
     }
 
     fun init() {

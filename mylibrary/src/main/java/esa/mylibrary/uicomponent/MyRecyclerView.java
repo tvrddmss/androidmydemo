@@ -86,7 +86,7 @@ public class MyRecyclerView extends RecyclerView implements RecyclerView.OnTouch
 
     private boolean isloading = false;//是否在数据加载请求中，不能操作
     private IOnScrollListener listener;//事件监听
-    private float mLastY;//监听移动的位置
+    private float mLastY = -1;//监听移动的位置
 
 
     private int paddingTop;
@@ -154,7 +154,7 @@ public class MyRecyclerView extends RecyclerView implements RecyclerView.OnTouch
         paddingBottom = this.getPaddingBottom();
         paddingLeft = this.getPaddingLeft();
         paddingRight = this.getPaddingRight();
-		
+
 //        FlowLayoutManager flowLayoutManager = new FlowLayoutManager();
 //        this.setLayoutManager(flowLayoutManager);
 //

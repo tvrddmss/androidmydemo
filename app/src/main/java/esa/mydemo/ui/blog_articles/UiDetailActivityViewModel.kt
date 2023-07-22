@@ -41,7 +41,7 @@ class UiDetailActivityViewModel : AppBaseViewModel() {
         jsonObject.addProperty("title", title.value)
         jsonObject.addProperty("content", content.value)
 
-        job = viewModelScope.launch {
+        viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 var data = RetrofitUtil.retrofit.create(BlogArticelsService::class.java)
                     .update(jsonObject, Config.api.loginToken)

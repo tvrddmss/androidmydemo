@@ -1,10 +1,10 @@
 package esa.mydemo.fragment.menu
 
-import esa.mydemo.base.BaseViewModel
+import esa.mydemo.base.AppBaseViewModel
 import org.json.JSONArray
 import org.json.JSONObject
 
-class UiMenuViewModel : BaseViewModel() {
+class UiMenuViewModel : AppBaseViewModel() {
     // TODO: Implement the ViewModel
     lateinit var jsonArray: JSONArray
     var gap: Int = 0
@@ -111,8 +111,19 @@ class UiMenuViewModel : BaseViewModel() {
                 put("class", "esa.mydemo.ui.photo.UiPhotoViewActivity")
                 put("label", "照片文件查看")
             })
+            put(JSONObject().apply {
+                put("icon", "\uE98F")
+                put("type", "activity")
+                put("class", "esa.mydemo.ui.audio.UiAudioActivity")
+                put("label", "音乐")
+            })
+            put(JSONObject().apply {
+                put("icon", "\uE990")
+                put("type", "activity")
+                put("class", "esa.mydemo.ui.blog_articles.UiListActivity")
+                put("label", "博客")
+            })
             var icons = (
-                    "\uE98F\n" +
                     "\uE990\n" +
                     "\uE991\n" +
                     "\uE992\n" +

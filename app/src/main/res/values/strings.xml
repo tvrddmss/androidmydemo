@@ -13,7 +13,8 @@
     <string name="api_port">1122</string>
 
     <string name="api_functiontoken">12345678</string>
-    <string name="api_project">esa-zjgcdy-server</string>
+    <string name="api_project">api</string>
+<!--    esa-zjgcdy-server-->
     <string name="title_activity_settings">SettingsActivity</string>
 
     <!-- Preference Titles -->
@@ -161,4 +162,11 @@
         "For example, position the FAB to one side of stream of a cards so the FAB won’t interfere "
         "when a user tries to pick up one of cards.\n\n"
     </string>
+
+
+
+
+    <string name="osm_bottommessage">【Longitude】E  【Latitude】N  Altitude:【Altitude】  Direction:【Direction】</string>
+
+
 </resources>

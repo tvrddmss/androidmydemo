@@ -1,92 +1,112 @@
 package esa.mydemo.ui.blog_articles
 
-import esa.mydemo.base.BaseViewModel
-import esa.mydemo.dal.spring.BlogArticles
-import esa.mylibrary.common.CallBack
-import esa.mylibrary.utils.MyJson
-import org.json.JSONObject
-import java.util.*
+import androidx.lifecycle.viewModelScope
+import com.google.gson.Gson
+import esa.mydemo.base.AppBaseViewModel
+import esa.mydemo.dal.spring.BlogArticelsService
+import esa.mydemo.dal.spring.Data
+import esa.mylibrary.apiv2.RetrofitUtil
+import esa.mylibrary.config.Config
+import esa.mylibrary.utils.log.MyLog
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-class UiListActivityViewModel : BaseViewModel() {
+
+class UiListActivityViewModel : AppBaseViewModel() {
 
     lateinit var myAdapter: UiListActivity.RefreshRecycleAdapter
 
     private var count = 0
-
-    private val step = 2
+    private val step = 3
     private var index = 0
 
-    /**
-     * @description 销毁程序
-     * @param null
-     * @return null
-     * @author Administrator
-     * @time 2023/04/20 17:02
-     */
-    override fun onCleared() {
-        super.onCleared()
-        //viewModel销毁时调用，可以做一些释放资源的操作
-//        if (myAdapter.list!!.length() >= 1) {
-//            while (myAdapter.list!!.length() >= 1) {
-//                myAdapter.list!!.remove(0)
-//            }
-//        }
-//        myAdapter.notifyDataSetChanged()
+    //伴生类-用于单例
+    companion object {
+        private lateinit var instance: UiListActivityViewModel
+        fun getInstance(): UiListActivityViewModel {
+            return instance
+        }
 
+        fun setInstance(instance: UiListActivityViewModel) {
+            this.instance = instance
+        }
     }
 
     fun refresh() {
         count = 0
         index = 0
-        BlogArticles.getList(index, step,
-            object : CallBack<JSONObject>() {
-                override fun success(o: JSONObject) {
-                    count = o.getString("total").toInt()
-                    o.getString("current")
-                    myAdapter.list = o.getJSONArray("records")
-                    index = myAdapter.list.length() / step + 1;
-                    myAdapter!!.notifyDataSetChanged()
+        job = viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                var data = call()
+                MyLog.d("数据查询结束")
+                if (isActive) {
+                    analysisResult(false, data)
+                    MyLog.d("数据拼接结束")
                 }
+            }
+            withContext(Dispatchers.Main) {
+                myAdapter!!.notifyDataSetChanged()
+                MyLog.d("UI刷新结束")
+            }
 
-                override fun error(message: String) {
-                    showExceptionMessage("数据刷新失败：$message")
-                }
-            })
+        }
 
     }
 
     fun loadMore() {
-
-        BlogArticles.getList(index, step,
-            object : CallBack<JSONObject>() {
-                override fun success(o: JSONObject) {
-                    try {
-                        count = o.getString("total").toInt();
-//                        myAdapter.list = MyJson.merge(myAdapter.list, o.getJSONArray("rows"));
-                        myAdapter.list = MyJson.merge(myAdapter.list, o.getJSONArray("records"));
-                        index = myAdapter.list.length() / step + 1;
-                        myAdapter!!.notifyDataSetChanged()
-                    } catch (ex: Exception) {
-                        showExceptionMessage(ex.message)
-                    }
+        job = viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                var data = call()
+                MyLog.d("数据查询结束")
+                if (isActive) {
+                    analysisResult(false, data)
+                    MyLog.d("数据拼接结束")
                 }
-
-                override fun error(message: String) {
-                    showExceptionMessage("数据加载更多失败：$message")
-                }
-            })
-
-//        Handler().postDelayed({
-//            val jsonObject = JSONObject()
-//            jsonObject.put("test", myAdapter!!.itemCount)
-//            myAdapter!!.list.put(jsonObject)
-//            MyLog.d("list:" + jsonObject.toString())
-//            myAdapter!!.notifyDataSetChanged()
-//        }, 3000)
+            }
+            withContext(Dispatchers.Main) {
+                myAdapter!!.notifyDataSetChanged()
+            }
+        }
     }
 
     fun isAllData(): Boolean {
         return myAdapter!!.itemCount >= count
+    }
+
+    //拼接查询参数
+    private fun getParMap(): HashMap<String, String> {
+        return HashMap<String, String>().apply {
+            put("index", index.toString())
+            put("size", step.toString())
+            put("functiontoken", Config.api.functiontoken.get("functiontoken").toString())
+        }
+    }
+
+    //执行查询
+    private fun call(): Data {
+        return RetrofitUtil.retrofit.create(BlogArticelsService::class.java)
+            .getList(getParMap(), Config.api.loginToken)
+            .execute()
+            .body()!!
+    }
+
+    //解析查询结果
+    private fun analysisResult(isRefresh: Boolean, data: Data) {
+        if (data.getCode() == 0) {
+            var result = Gson().toJsonTree(data.getData()).asJsonObject
+            count = result.get("total").asInt
+            if (isRefresh) {
+                myAdapter.list = result.getAsJsonArray("records")
+            } else {
+                myAdapter.list.addAll(result.getAsJsonArray("records"))
+            }
+            index = myAdapter.list.size() / step + 1
+        } else {
+            throw Exception(data?.getData().toString())
+        }
+
     }
 
 

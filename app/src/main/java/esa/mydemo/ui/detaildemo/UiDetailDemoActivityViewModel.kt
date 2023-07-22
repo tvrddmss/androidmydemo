@@ -1,9 +1,9 @@
 package esa.mydemo.ui.detaildemo
 
 import android.view.View
-import esa.mydemo.base.BaseViewModel
+import esa.mydemo.base.AppBaseViewModel
 
-class UiDetailDemoActivityViewModel : BaseViewModel() {
+class UiDetailDemoActivityViewModel : AppBaseViewModel() {
 
     lateinit var onClickListener: View.OnClickListener
 

@@ -149,7 +149,9 @@ public class MyGps extends Observable {
         crt.setAltitudeRequired(true);                        // 需要高度
         String provider = lm.getBestProvider(crt, true);    // 寻找最匹配的provider
 
-        location = lm.getLastKnownLocation(provider);    // 取最后已知位置，即缓存中的位置
+        if (provider != null) {
+            location = lm.getLastKnownLocation(provider);    // 取最后已知位置，即缓存中的位置
+        }
 //        if (l != null) tvResult.append(provider + "-LastKnown:" + l.toString() + "\n");
         long period = Long.parseLong("1");        // 最小时间间隔
         int distance = Integer.parseInt("1");    // 最小距离
@@ -222,6 +224,7 @@ public class MyGps extends Observable {
     }
 
 
+    public int satelliteCount = 0;
     public int cn0DbHz30SatelliteCount = 0;
     public int cn0DbHz37SatelliteCount = 0;
 
@@ -247,8 +250,9 @@ public class MyGps extends Observable {
                 super.onSatelliteStatusChanged(status);
 
                 // 可以搜索到的卫星总数
-                int satelliteCount = status.getSatelliteCount();
-
+                satelliteCount = status.getSatelliteCount();
+                cn0DbHz30SatelliteCount = 0;
+                cn0DbHz37SatelliteCount = 0;
                 var satelliteInfo = "";
                 for (int index = 0; index < satelliteCount; index++) {
                     // 每个卫星的载波噪声密度
@@ -256,8 +260,7 @@ public class MyGps extends Observable {
                     float cn0DbHz = status.getCn0DbHz(index);
                     if (cn0DbHz >= 30) {
                         cn0DbHz30SatelliteCount++;
-                    }
-                    if (cn0DbHz >= 37) {
+                    } else if (cn0DbHz >= 37) {
                         cn0DbHz37SatelliteCount++;
                     }
                 }

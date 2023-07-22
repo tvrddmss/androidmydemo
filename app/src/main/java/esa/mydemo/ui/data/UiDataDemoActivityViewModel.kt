@@ -1,13 +1,13 @@
 package esa.mydemo.ui.data
 
-import esa.mydemo.base.BaseViewModel
+import esa.mydemo.base.AppBaseViewModel
 import esa.mydemo.data.StudentBean
 import esa.mydemo.data.StudentDao
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-class UiDataDemoActivityViewModel : BaseViewModel() {
+class UiDataDemoActivityViewModel : AppBaseViewModel() {
 
     lateinit var logDao: StudentDao
     lateinit var myAdapter: UiDataDemoActivity.RefreshRecycleAdapter

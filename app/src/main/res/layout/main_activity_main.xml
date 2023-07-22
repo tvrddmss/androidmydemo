@@ -5,7 +5,8 @@
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/background">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -65,7 +66,7 @@
     <data>
 
         <variable
-            name="Entity"
-            type="esa.mydemo.main.MainActivity.Entity" />
+            name="viewModel"
+            type="esa.mydemo.main.main.MainActivityViewModel" />
     </data>
 </layout>

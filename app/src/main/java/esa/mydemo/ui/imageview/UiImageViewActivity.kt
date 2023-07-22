@@ -1,29 +1,28 @@
 package esa.mydemo.ui.imageview
 
 import android.app.ActionBar
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.app.ActivityCompat
-import androidx.core.app.ActivityOptionsCompat
 import androidx.core.view.get
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.lxj.xpopup.XPopup
+import com.lxj.xpopup.util.SmartGlideImageLoader
 import esa.mydemo.R
 import esa.mydemo.base.AppBaseActivity
 import esa.mydemo.databinding.ActivityUiImageViewBinding
 import esa.mylibrary.info.DeviceInfo
 import esa.mylibrary.uicomponent.MyRecyclerView
 import esa.mylibrary.utils.DensityUtil
-import esa.mylibrary.utils.FastClick
 import esa.mylibrary.utils.MyJson
 import org.json.JSONArray
 import org.json.JSONObject
+
 
 class UiImageViewActivity : AppBaseActivity() {
 
@@ -44,31 +43,6 @@ class UiImageViewActivity : AppBaseActivity() {
         binding = ActivityUiImageViewBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-//
-//        Glide.with(binding.root.context)
-//            .load(imageurls[0])
-//            .skipMemoryCache(true)
-//            .diskCacheStrategy(DiskCacheStrategy.NONE)
-//            .error(esa.mylibrary.R.drawable.base_loading_img)
-//            .into(binding.imagev1)
-//        binding.imagev1.setOnClickListener {
-//            try {
-//                val intent = Intent(binding.root.context, UiImageViewDetailActivity::class.java)
-//                intent.putExtra("imageurls", imageurls.joinToString("^"))
-//                intent.putExtra("index", 0)
-//                var sharedElement = it
-//                val compat: ActivityOptionsCompat? = this.let {
-//                    ActivityOptionsCompat.makeSceneTransitionAnimation(
-//                        it,
-//                        sharedElement,
-//                        "detailview"
-//                    )
-//                }
-//                ActivityCompat.startActivity(binding.root.context, intent, compat?.toBundle())
-//            } catch (ex: Exception) {
-//                MyLog.e(ex.message)
-//            }
-//        }
 
         imageurls = JSONArray().apply {
             JSONObject().apply {
@@ -89,7 +63,9 @@ class UiImageViewActivity : AppBaseActivity() {
             }
         }
 
-
+        var list: MutableList<Any> = ArrayList<Any>()
+        list.add("https://www.isanxia.com/zb_users/upload/2021/01/202101231611384413161374.jpg")
+        list.add("https://img1.baidu.com/it/u=2134924737,3616458382&fm=253&fmt=auto&app=138&f=JPG?w=889&h=500")
         myAdapter = UiImageViewActivity.RefreshRecycleAdapter(JSONArray())
 
         binding.myRecyclerView.apply {
@@ -131,21 +107,32 @@ class UiImageViewActivity : AppBaseActivity() {
         myAdapter.onViewClickListener = View.OnClickListener {
 
             //加载数据时不跳转，避免多次点击
-            if (!FastClick.isFastClick() && !binding.myRecyclerView.isIsloading()) {
+//            if (!FastClick.isFastClick() && !binding.myRecyclerView.isIsloading()) {
+//
+//                val intent = Intent(binding.root.context, UiImageViewDetailActivity::class.java)
+//                intent.putExtra("imageurls", imageurls.toString())
+//                intent.putExtra("index", (it.tag as Int))
+//                var sharedElement = ((it as ViewGroup).get(0) as ViewGroup).get(0) as ImageView
+//                val compat: ActivityOptionsCompat? = this.let {
+//                    ActivityOptionsCompat.makeSceneTransitionAnimation(
+//                        it,
+//                        sharedElement,
+//                        "detailview"
+//                    )
+//                }
+//                ActivityCompat.startActivity(binding.root.context, intent, compat?.toBundle())
+//            }
 
-                val intent = Intent(binding.root.context, UiImageViewDetailActivity::class.java)
-                intent.putExtra("imageurls", imageurls.toString())
-                intent.putExtra("index", (it.tag as Int))
-                var sharedElement = ((it as ViewGroup).get(0) as ViewGroup).get(0) as ImageView
-                val compat: ActivityOptionsCompat? = this.let {
-                    ActivityOptionsCompat.makeSceneTransitionAnimation(
-                        it,
-                        sharedElement,
-                        "detailview"
-                    )
-                }
-                ActivityCompat.startActivity(binding.root.context, intent, compat?.toBundle())
-            }
+
+            XPopup.Builder(binding.root.context).asImageViewer(
+                ((it as ViewGroup).get(0) as ViewGroup).get(0) as ImageView, it.tag as Int, list,
+                { popupView, position -> // 注意这里：根据position找到你的itemView。根据你的itemView找到你的ImageView。
+                    // Demo中RecyclerView里面只有ImageView所以这样写，不要原样COPY。
+                    // 作用是当Pager切换了图片，需要更新源View，
+                    popupView.updateSrcView(((it as ViewGroup).get(0) as ViewGroup).get(0) as ImageView)
+                }, SmartGlideImageLoader()
+            )
+                .show()
         }
     }
 
@@ -217,6 +204,11 @@ class UiImageViewActivity : AppBaseActivity() {
             init {
                 image = itemView.findViewById(R.id.imItem)
                 text = itemView.findViewById(R.id.tvItem)
+
+                image.apply {
+
+
+                }
             }
         }
     }

@@ -1,8 +1,17 @@
 package esa.mydemo.ui.blog_articles
 
 import androidx.lifecycle.MutableLiveData
-import esa.mydemo.base.BaseViewModel
-import org.json.JSONObject
+import androidx.lifecycle.viewModelScope
+import com.google.gson.JsonObject
+import esa.mydemo.base.AppBaseViewModel
+import esa.mydemo.dal.spring.BlogArticelsService
+import esa.mylibrary.apiv2.RetrofitUtil
+import esa.mylibrary.config.Config
+import esa.mylibrary.utils.log.MyLog
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 /**
@@ -18,27 +27,41 @@ import org.json.JSONObject
  * @UpdateRemark: 更新说明
  * @Version: 1.0
  */
-class UiDetailActivityViewModel : BaseViewModel() {
+class UiDetailActivityViewModel : AppBaseViewModel() {
 
-    lateinit var jsonObject: JSONObject
+    lateinit var jsonObject: JsonObject
 
     var img: MutableLiveData<String> = MutableLiveData("img")
     var title: MutableLiveData<String> = MutableLiveData("title")
     var content: MutableLiveData<String> = MutableLiveData("content")
 
+    fun update() {
 
-    /**
-     * @description 销毁程序
-     * @param null
-     * @return null
-     * @author Administrator
-     * @time 2023/04/20 17:02
-     */
-    override fun onCleared() {
-        super.onCleared()
+        jsonObject.addProperty("img", img.value)
+        jsonObject.addProperty("title", title.value)
+        jsonObject.addProperty("content", content.value)
+
+        job = viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                var data = RetrofitUtil.retrofit.create(BlogArticelsService::class.java)
+                    .update(jsonObject, Config.api.loginToken)
+                    .execute()
+                    .body()!!
+                MyLog.d("数据更新结束")
+                if (isActive) {
+                    if (data.getCode() == 0) {
+                        showMessage("更新成功")
+                    } else {
+                        throw Exception(data.getData().toString())
+                    }
+                }
+            }
+            withContext(Dispatchers.Main) {
+                MyLog.d("UI刷新结束")
+            }
+
+        }
     }
-
-
 }
 
 

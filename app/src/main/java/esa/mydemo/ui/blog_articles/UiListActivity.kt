@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.google.gson.JsonArray
 import esa.mydemo.R
 import esa.mydemo.base.AppBaseActivity
 import esa.mydemo.databinding.ActivityUiListBinding
@@ -21,12 +22,11 @@ import esa.mylibrary.uicomponent.MyRecyclerView
 import esa.mylibrary.utils.DensityUtil
 import esa.mylibrary.utils.FastClick
 import esa.mylibrary.utils.log.MyLog
-import org.json.JSONArray
 
 
 class UiListActivity : AppBaseActivity() {
     private lateinit var binding: ActivityUiListBinding
-    public lateinit var viewModel: UiListActivityViewModel
+    private lateinit var viewModel: UiListActivityViewModel
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,7 +38,8 @@ class UiListActivity : AppBaseActivity() {
         setContentView(binding.root)
 
         viewModel = ViewModelProvider(this).get(UiListActivityViewModel::class.java)
-        viewModel.setContext(binding.root.context)
+        UiListActivityViewModel.setInstance(viewModel)
+        viewModel.setContext(applicationContext)
 
 
         init()
@@ -57,7 +58,7 @@ class UiListActivity : AppBaseActivity() {
         binding.myRecyclerView.canLoadMore = true
         binding.myRecyclerView.canRefresh = true
 
-        viewModel.myAdapter = RefreshRecycleAdapter(JSONArray())
+        viewModel.myAdapter = RefreshRecycleAdapter(JsonArray())
 
         binding.myRecyclerView.adapter = viewModel.myAdapter
         binding.myRecyclerView.listener = object : MyRecyclerView.IOnScrollListener {
@@ -93,12 +94,15 @@ class UiListActivity : AppBaseActivity() {
             }
         }
 
+        binding.myRecyclerView.refresh()
+
     }
 
     override fun onDestroy() {
         super.onDestroy()
         //页面关闭后，不再监听
         binding.myRecyclerView.listener = null
+
     }
 
     /**
@@ -106,7 +110,7 @@ class UiListActivity : AppBaseActivity() {
      * @author Administrator
      * @time 2023/04/20 16:29
      */
-    class RefreshRecycleAdapter(var list: JSONArray) :
+    class RefreshRecycleAdapter(var list: com.google.gson.JsonArray) :
         RecyclerView.Adapter<RefreshRecycleAdapter.ViewHolder>() {
 
         //每行有多少
@@ -147,12 +151,12 @@ class UiListActivity : AppBaseActivity() {
                     ))
                 layoutParamsImage.height = layoutParamsImage.width
 
-                holder.text.text = list.getJSONObject(position).getString("title")
+                holder.text.text = list.get(position).asJsonObject.get("title").asString
                 val option = RequestOptions.placeholderOf(R.drawable.baseline_photo_24)
                     .error(R.drawable.baseline_photo_24)
                     .circleCrop()
                 Glide.with(holder.itemView)
-                    .load(list.getJSONObject(position).getString("img"))
+                    .load(list.get(position).asJsonObject.get("img").asString)
                     .apply(option)
                     .into(holder.image)
 
@@ -163,7 +167,7 @@ class UiListActivity : AppBaseActivity() {
         }
 
         override fun getItemCount(): Int {
-            return list.length()
+            return list.size()
         }
 
         inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

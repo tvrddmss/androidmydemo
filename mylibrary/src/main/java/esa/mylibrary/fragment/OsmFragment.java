@@ -31,30 +31,6 @@ public class OsmFragment extends BaseFragment implements Observer {
     public int paddingTop;
 
 
-    //region 静态内部类单例模式
-
-    /**
-     * 静态内部类单例
-     * 优点：外部类加载的时候并不需要立即去加载内部类，内部类不被加载则不会实例化mInstance，不占内存资源，
-     * 保证单例的唯一性，同时也延迟了单例的实例化。
-     */
-    private static class OsmFragmentHolder {
-        private static OsmFragment mInstance = new OsmFragment();
-    }
-
-    /**
-     * @return esa.mylibrary.gps.GpsConfig
-     * @description
-     * @author Administrator
-     * @time 2023/04/04 16:44
-     */
-    public static OsmFragment getInstance() {
-        return OsmFragment.OsmFragmentHolder.mInstance;
-    }
-
-    //endregion
-
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 //        View view = inflater.inflate(R.layout.fragment_osm, container, false);
@@ -184,7 +160,7 @@ public class OsmFragment extends BaseFragment implements Observer {
         }
         text = text.replace("【Direction】", mViewModel.angle.getValue());
 
-        text += "\r\n卫星：" + MyGps.getInstance().cn0DbHz30SatelliteCount + "，" + MyGps.getInstance().cn0DbHz37SatelliteCount;
+        text += "\r\n卫星总数：" + MyGps.getInstance().satelliteCount + "，信噪比30-37：" + MyGps.getInstance().cn0DbHz30SatelliteCount + "，大于37：" + MyGps.getInstance().cn0DbHz37SatelliteCount;
 
         mViewModel.bottomInfo.postValue(text);
     }

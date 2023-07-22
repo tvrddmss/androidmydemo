@@ -1,13 +1,19 @@
 package esa.mydemo.base
 
+import android.content.Context
 import android.os.Bundle
+import android.util.AttributeSet
+import android.view.View
+import com.lxj.xpopup.XPopup
+import com.lxj.xpopup.core.BasePopupView
+import com.lxj.xpopup.interfaces.OnConfirmListener
 import esa.mydemo.MyApplication
-import esa.mydemo.dal.Platform
-import esa.mydemo.dal.spring.PlatformForSpring.checkVersion
+import esa.mydemo.dal.Platform.checkVersion
 import esa.mylibrary.activity.BaseActivity
 import esa.mylibrary.common.CallBack
+import esa.mylibrary.info.DeviceInfo
 import esa.mylibrary.utils.log.MyLog
-import java.io.File
+
 
 /**
  * @ProjectName: mydemo
@@ -22,12 +28,6 @@ import java.io.File
  * @Version: 1.0
  */
 open class AppBaseActivity : BaseActivity() {
-    /**
-     * @description 是否已检查版本信息
-     * @author Administrator
-     * @time 2023/04/03 10:27
-     */
-    protected var isFirstActiviyInitComplete = false
 
     /**
      * @param
@@ -54,73 +54,40 @@ open class AppBaseActivity : BaseActivity() {
     /**
      * @param callBack
      * @return void
-     * @description 第一个页面创建时，初始化检查各种版本,用于esa
-     * @author tvrddmss
-     * @time 2023/4/11 17:03
-     */
-    protected fun setIsFirstActiviyInit(callBack: CallBack<*>) {
-        showloading("检查APP版本。。。")
-
-        //检测APP版本
-        Platform.checkVersion(this, object : CallBack<Any?>() {
-            override fun success(o: Any?) {
-                //判断是否有需要安装新版本
-                if (o == null) {
-                    MyLog.d("检测APP版本完成，不需要更新！")
-                    //检测Code版本
-                    showloading("检查数据字典版本。。。")
-                    Platform.checkCodeVersion(this@AppBaseActivity, object : CallBack<Any?>() {
-                        override fun success(o: Any?) {
-                            MyLog.d("code更新完成")
-                            isFirstActiviyInitComplete = true
-                            callBack.success("" as Nothing?)
-                        }
-
-                        override fun error(message: String) {
-                            callBack.error("检查Code版本失败：$message")
-                        }
-                    })
-                } else {
-                    MyLog.d("检测APP版本完成，更新中！")
-                    Platform.installApp(this@AppBaseActivity, o as File)
-                }
-            }
-
-            override fun error(message: String) {
-                callBack.error("检查APP版本失败：$message")
-            }
-        })
-    }
-
-    /**
-     * @param callBack
-     * @return void
      * @description 第一个页面创建时，初始化检查各种版本,用于spring
      * @author tvrddmss
      * @time 2023/4/11 17:03
      */
-    protected fun setIsFirstActiviyInitForSpring(callBack: CallBack<String>) {
-        showloading("检查APP版本。。。")
+    protected fun setIsFirstActiviyInitForSpring(callBack: CallBack<Any?>) {
 
+        showloading("检查APP版本。。。")
         //检测APP版本
         checkVersion(this, object : CallBack<Any?>() {
             override fun success(o: Any?) {
-                //判断是否有需要安装新版本
-                if (o == null) {
-                    MyLog.d("检测版本完成，不需要更新！")
-                    //检测Code版本
-                    isFirstActiviyInitComplete = true
-                    callBack.success("")
-                } else {
-                    MyLog.d("检测APP版本完成，更新中！")
-                    Platform.installApp(this@AppBaseActivity, o as File)
-                }
+                callBack.success("")
             }
 
             override fun error(message: String) {
                 callBack.error("检查APP版本失败：$message")
             }
         })
+
+    }
+
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+    }
+
+    override fun onCreateView(name: String, context: Context, attrs: AttributeSet): View? {
+        return super.onCreateView(name, context, attrs)
+
+
+    }
+
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        super.onWindowFocusChanged(hasFocus)
+        //当第一个活动屏幕展开后，计算屏幕大小
+        DeviceInfo.getScreen(this)
     }
 
     /**
@@ -191,4 +158,88 @@ open class AppBaseActivity : BaseActivity() {
         (application as MyApplication).removeActivity(this)
         MyLog.d(this.javaClass.name + "移出Activity集合")
     }
+
+    //region message
+    /**
+     * @param message
+     * @return null
+     * @description
+     * @author Administrator
+     * @time 2023/03/29 13:44
+     */
+    protected fun showExceptionMessage(message: String?) {
+        MyLog.e(message)
+        pop =
+            XPopup.Builder(this)
+                /*
+                        * title:标题
+                        * content：内容
+                        * cancelBtnText：取消按钮文本(左边按钮文本)
+                        * confirmBtnText：确定按钮文本(右边按钮文本)
+                        * confirmListener：确定按钮点击事件(右边按钮点击事件)
+                        * cancelListener：取消按钮点击事件(左边按钮点击事件)
+                        * isHideCancel：是否隐藏左侧按钮(设置单个点击按钮使用)
+                        */
+                .asConfirm(
+                    "错误信息", message,
+                    "取消", "确定",
+                    OnConfirmListener() {
+                        @Override
+                        fun onConfirm() {
+                            pop?.dismiss();
+                        }
+
+                    }, null, true
+                )
+                .show()
+    }
+
+    protected fun showMessage(message: String?) {
+        MyLog.i(message)
+         pop =
+            XPopup.Builder(this)
+                /*
+                        * title:标题
+                        * content：内容
+                        * cancelBtnText：取消按钮文本(左边按钮文本)
+                        * confirmBtnText：确定按钮文本(右边按钮文本)
+                        * confirmListener：确定按钮点击事件(右边按钮点击事件)
+                        * cancelListener：取消按钮点击事件(左边按钮点击事件)
+                        * isHideCancel：是否隐藏左侧按钮(设置单个点击按钮使用)
+                        */
+                .asConfirm(
+                    "提示信息", message,
+                    "取消", "确定",
+                    OnConfirmListener() {
+                        @Override
+                        fun onConfirm() {
+                            pop?.dismiss();
+                        }
+
+                    }, null, true
+                )
+                .show()
+    }
+    //endregion
+
+    //region loading
+    var pop: BasePopupView? = null
+
+    /* 显示loading */
+    open fun showloading(text: String?) {
+        try {
+            pop?.dismiss()
+            pop = XPopup.Builder(this)
+                .asLoading(text)
+                .show()
+        } catch (ex: Exception) {
+            MyLog.e(ex.message)
+        }
+    }
+
+    /* 关闭loading */
+    open fun closeloading() {
+        pop?.dismiss()
+    }
+    //endregion
 }

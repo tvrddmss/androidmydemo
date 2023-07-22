@@ -21,7 +21,7 @@ object MyPermission {
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
-            throw Exception("没有权限")
+            throw Exception("请设置当前应用可以访问所有文件")
         }
     }
 }

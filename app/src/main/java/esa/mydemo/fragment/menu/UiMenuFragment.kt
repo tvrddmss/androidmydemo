@@ -54,6 +54,23 @@ class UiMenuFragment : BaseFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+//        enterTransition = MaterialSharedAxis(
+//            MaterialSharedAxis.Z,
+//            /* forward= */ true
+//        ).apply {
+//            duration =
+//                resources.getInteger(R.integer.reply_motion_duration_large)
+//                    .toLong()
+//        }
+//        returnTransition = MaterialSharedAxis(
+//            MaterialSharedAxis.Z,
+//            /* forward= */ false
+//        ).apply {
+//            duration =
+//                resources.getInteger(R.integer.reply_motion_duration_large)
+//                    .toLong()
+//        }
         return inflater.inflate(esa.mydemo.R.layout.fragment_ui_menu, container, false)
     }
 
@@ -131,7 +148,10 @@ class UiMenuFragment : BaseFragment() {
                     delay(10L)
                     val jsonObject = viewModel.jsonArray.getJSONObject(i)
 
-                    LinearLayout(context).apply {
+                    while (requireContext() == null) {
+                        Thread.sleep(50);
+                    }
+                    LinearLayout(requireContext()).apply {
                         orientation = LinearLayout.VERTICAL
                         //颜色减轻--设置透明度
                         var color = MyColor.getStepColor(i, viewModel.jsonArray.length())
@@ -324,16 +344,18 @@ class UiMenuFragment : BaseFragment() {
 
     private fun onClick(view: View, jsonObject: JSONObject) {
 
-        when (jsonObject.getString("type")) {
-            "activity" -> {
-                MyLog.d(jsonObject.getString("class"))
-                var objClass = Class.forName(jsonObject.getString("class"))
-                var par = JSONObject()
-                if (jsonObject.has("par")) {
-                    par = jsonObject.getJSONObject("par")
-                }
+        try {
 
-                toActivity(view, objClass, par)
+            when (jsonObject.getString("type")) {
+                "activity" -> {
+                    MyLog.d(jsonObject.getString("class"))
+                    var objClass = Class.forName(jsonObject.getString("class"))
+                    var par = JSONObject()
+                    if (jsonObject.has("par")) {
+                        par = jsonObject.getJSONObject("par")
+                    }
+
+                    toActivity(view, objClass, par)
 
 //                val intent = Intent(activity, objClass)
 //                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
@@ -341,46 +363,52 @@ class UiMenuFragment : BaseFragment() {
 //                startActivity(intent)
 
 //                activity?.overridePendingTransition(R.anim.`in`, R.anim.out);
-                return
-            }
+                    return
+                }
 
-            "devclass" -> {
-                FileDownLoad.downloadFile(
-                    activity,
-                    jsonObject.getString("url"),
-                    object : CallBack<Any?>() {
-                        override fun success(o: Any?) {
-                            MyLog.d((o as File).absolutePath)
-                            CoroutineScope(Dispatchers.Main).launch {
+                "devclass" -> {
+//                    MyPermission.checkPermission(requireContext())
+                    FileDownLoad.downloadFile(
+                        activity,
+                        jsonObject.getString("url"),
+                        object : CallBack<Any?>() {
+                            override fun success(o: Any?) {
+                                MyLog.d((o as File).absolutePath)
+                                CoroutineScope(Dispatchers.Main).launch {
 //                            ShowToastMessage((o as File).absolutePath)
-                                var loader = MyDexUtil.loadDexClass(
-                                    binding.root.context,
-                                    (o as File)
-                                )
-                                var dexClass =
-                                    MyDexUtil.getClass(loader, jsonObject.getString("class"))
+                                    var loader = MyDexUtil.loadDexClass(
+                                        binding.root.context,
+                                        (o as File)
+                                    )
+                                    var dexClass =
+                                        MyDexUtil.getClass(loader, jsonObject.getString("class"))
 
-                                dexClass?.run {
-                                    val aa =
-                                        getMethod(jsonObject.getString("method")).invoke(newInstance()) as String
-                                    MyLog.d(aa)
-                                    ShowToastMessage(aa)
+                                    dexClass?.run {
+                                        val aa =
+                                            getMethod(jsonObject.getString("method")).invoke(
+                                                newInstance()
+                                            ) as String
+                                        MyLog.d(aa)
+                                        ShowToastMessage(aa)
+                                    }
                                 }
                             }
-                        }
 
-                        override fun error(message: String) {
-                            ShowToastMessage(message)
-                        }
-                    })
+                            override fun error(message: String) {
+                                ShowToastMessage(message)
+                            }
+                        })
 
-                return
+                    return
+                }
             }
+
+            ShowToastMessage(jsonObject.toString())
+
+
+        } catch (ex: Exception) {
+            ShowToastMessageLongTime(ex.message)
         }
-
-        ShowToastMessage(jsonObject.toString())
-
-
     }
 
 
@@ -411,5 +439,6 @@ class UiMenuFragment : BaseFragment() {
                 compat.toBundle()
             )
         }
+
     }
 }

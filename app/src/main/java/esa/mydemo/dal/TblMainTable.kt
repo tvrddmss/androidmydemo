@@ -45,7 +45,7 @@ object TblMainTable {
                     } catch (ex: java.lang.Exception) {
                         callBack.error(
                             """
-                            ${TblMainTable::class.java.name}
+                            ${this::class.java.name}
                             $url,
                             网络请求结果解析失败！${ex.message}
                             """.trimIndent()
@@ -56,7 +56,7 @@ object TblMainTable {
                 override fun onError(code: Int) {
                     callBack.error(
                         """
-                        ${TblMainTable::class.java.name}
+                        ${this::class.java.name}
                         $url,
                         网络请求错误！错误编码：$code
                         """.trimIndent()
@@ -66,7 +66,7 @@ object TblMainTable {
                 override fun onFailure(e: IOException) {
                     callBack.error(
                         """
-                        ${TblMainTable::class.java.name}
+                        ${this::class.java.name}
                         $url,
                         网络请求失败！失败：$e
                         """.trimIndent()
@@ -76,7 +76,7 @@ object TblMainTable {
         } catch (ex: java.lang.Exception) {
             callBack.error(
                 """
-                ${TblMainTable::class.java.name}
+                ${this::class.java.name}
                 $url,
                 ,报错：${ex.message}
                 """.trimIndent()

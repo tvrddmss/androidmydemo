@@ -1,10 +1,10 @@
 package esa.mydemo.ui.code
 
-import esa.mydemo.base.BaseViewModel
+import esa.mydemo.base.AppBaseViewModel
 import esa.mydemo.data.code.CodeBean
 import esa.mydemo.data.code.CodeDao
 
-class UiCodeActivityViewModel : BaseViewModel() {
+class UiCodeActivityViewModel : AppBaseViewModel() {
 
     lateinit var logDao: CodeDao
 

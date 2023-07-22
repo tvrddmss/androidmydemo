@@ -1,7 +1,7 @@
 package esa.mydemo.fragment.myprofile
 
+import android.content.Intent
 import android.os.Bundle
-import android.os.Environment
 import android.os.Handler
 import android.os.Message
 import android.util.Log
@@ -11,8 +11,9 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import esa.mydemo.base.AppBaseFragment
-import esa.mydemo.dal.spring.PlatformForSpring.getNewVersionUrl
+import esa.mydemo.dal.Platform.getNewVersionUrl
 import esa.mydemo.databinding.FragmentMyProfileBinding
+import esa.mydemo.myrpofile.MyProfilePasswordActivity
 import esa.mylibrary.common.CallBack
 import esa.mylibrary.gps.MyGps
 import esa.mylibrary.icon.MyIcon
@@ -23,10 +24,8 @@ import esa.myupdate.utils.CheckUpdate.checkUpdate
 import esa.myweather.API.getWeatherByLocation
 import org.json.JSONObject
 import java.io.BufferedReader
-import java.io.File
 import java.io.InputStream
 import java.io.InputStreamReader
-import java.io.RandomAccessFile
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Date
@@ -46,6 +45,24 @@ class MyProfileFragment() : AppBaseFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+
+//        enterTransition = MaterialSharedAxis(
+//            MaterialSharedAxis.Z,
+//            /* forward= */ true
+//        ).apply {
+//            duration =
+//                resources.getInteger(R.integer.reply_motion_duration_large)
+//                    .toLong()
+//        }
+//        returnTransition = MaterialSharedAxis(
+//            MaterialSharedAxis.Z,
+//            /* forward= */ false
+//        ).apply {
+//            duration =
+//                resources.getInteger(R.integer.reply_motion_duration_large)
+//                    .toLong()
+//        }
         return inflater.inflate(esa.mydemo.R.layout.fragment_my_profile, container, false)
     }
 
@@ -96,7 +113,14 @@ class MyProfileFragment() : AppBaseFragment() {
             binding.btnLogout.setOnClickListener {
                 mViewModel.onLogoutClick(it)
             }
-
+            binding.roundedEditPassword.setOnClickListener {
+                //跳转页面
+                val intent = Intent(
+                    binding.root.context,
+                    MyProfilePasswordActivity::class.java
+                )
+                startActivity(intent)
+            }
 
 //            val inputStream = requireContext().assets.open("weather/qweather-icons.ttf")
 //            analisy(file1)

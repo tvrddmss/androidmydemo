@@ -1,6 +1,6 @@
 package esa.mydemo.ui.chart
 
-import esa.mydemo.base.BaseViewModel
+import esa.mydemo.base.AppBaseViewModel
 
-class ChartActivityViewModel : BaseViewModel() {
+class ChartActivityViewModel : AppBaseViewModel() {
 }

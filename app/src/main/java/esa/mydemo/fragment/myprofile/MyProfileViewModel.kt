@@ -4,11 +4,10 @@ import android.content.Intent
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
-import esa.mydemo.base.BaseViewModel
-import esa.mydemo.main.LoginActivity
+import esa.mydemo.base.AppBaseViewModel
 import esa.mylibrary.info.UserInfo
 
-class MyProfileViewModel : BaseViewModel() {
+class MyProfileViewModel : AppBaseViewModel() {
     // TODO: Implement the ViewModel
     //数据绑定
     var appversion = MutableLiveData("版本")
@@ -35,7 +34,7 @@ class MyProfileViewModel : BaseViewModel() {
         UserInfo.setPassword("")
 
         //跳转页面
-        val intent = Intent(this.view!!.context, LoginActivity::class.java)
+        val intent = Intent(this.view!!.context, esa.mydemo.main.login.LoginActivity::class.java)
         this.view!!.context.startActivity(intent)
         fragment.activity?.finish()
     }

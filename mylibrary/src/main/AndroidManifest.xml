@@ -16,6 +16,7 @@
     <uses-permission android:name="android.permission.CAMERA" />
 
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
 
 <!--    以 Android 11 （API 级别 30）为目标平台后，会强制执行分区存储，系统会忽略 requestLegacyExternalStorage 标记。并且WRITE_EXTERNAL_STORAGE 权限和 WRITE_MEDIA_STORAGE 特许权限将不再提供任何其他访问权限。-->
 <!--    但是Android 提供了一种名为“所有文件访问权限”的特殊应用访问权限。在我们的清单文件内添加权限**<MANAGE_EXTERNAL_STORAGE>**-->

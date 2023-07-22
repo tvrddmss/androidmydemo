@@ -7,14 +7,10 @@ import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import esa.mydemo.MyApplication
 import esa.mydemo.R
 import esa.mydemo.base.AppBaseActivity
-import esa.mydemo.dal.spring.BlogArticles
 import esa.mydemo.databinding.ActivityUiDetailBlogArticlesBinding
-import esa.mylibrary.common.CallBack
 import esa.mylibrary.utils.MyImageUtil
-import org.json.JSONObject
 
 class UiDetailActivity : AppBaseActivity() {
 
@@ -51,14 +47,15 @@ class UiDetailActivity : AppBaseActivity() {
         var index = intent.getIntExtra("data", 0)
 
         viewModel.jsonObject =
-            ((application as MyApplication).activities.get((application as MyApplication).activities.size - 2) as UiListActivity).viewModel.myAdapter.list.getJSONObject(
-                index
-            )
+//            ((application as MyApplication).getActivities().get((application as MyApplication).getActivities().size - 2) as UiListActivity).viewModel.myAdapter.list.get(
+//                index
+//            ).asJsonObject
+            UiListActivityViewModel.getInstance().myAdapter.list.get(index).asJsonObject
 
 //        viewModel.jsonObject = MyJson.parse(intent.getStringExtra("data")) as JSONObject
-        viewModel.img.value = (viewModel.jsonObject.getString("img"))
-        viewModel.title.value = (viewModel.jsonObject.getString("title"))
-        viewModel.content.value = (viewModel.jsonObject.getString("content"))
+        viewModel.img.value = (viewModel.jsonObject.get("img").asString)
+        viewModel.title.value = (viewModel.jsonObject.get("title").asString)
+        viewModel.content.value = (viewModel.jsonObject.get("content").asString)
 
 
 
@@ -91,34 +88,23 @@ class UiDetailActivity : AppBaseActivity() {
         })
 
         //保存
-        binding.bottomTextViews.setOnClickListener(View.OnClickListener {
-//            var bitmap = binding.image.drawable.toBitmap()
-//            val resized = Bitmap.createScaledBitmap(
-//                bitmap, bitmap.width, bitmap.height, true
-//            )
-//            val stream = ByteArrayOutputStream()
-//            resized.compress(Bitmap.CompressFormat.PNG, 100, stream)
-//            val byteArray: ByteArray = stream.toByteArray()
+        binding.bottomTextViews.setOnClickListener {
+//            viewModel.jsonObject.addProperty("img", viewModel.img.value)
+//            viewModel.jsonObject.addProperty("title", viewModel.title.value)
+//            viewModel.jsonObject.addProperty("content", viewModel.content.value)
+//            BlogArticles.update(viewModel.jsonObject as JSONObject,
+//                object : CallBack<Int>() {
+//                    override fun success(o: Int) {
+//                        showMessage("保存成功")
+//                    }
 //
-//            viewModel.jsonObject.put(
-//                "img",
-//                "data:image/png;base64," + Base64.encodeToString(byteArray, Base64.DEFAULT)
-//                    .toString()
-//            )
-            viewModel.jsonObject.put("img", viewModel.img.value)
-            viewModel.jsonObject.put("title", viewModel.title.value)
-            viewModel.jsonObject.put("content", viewModel.content.value)
-            BlogArticles.update(viewModel.jsonObject as JSONObject,
-                object : CallBack<Int>() {
-                    override fun success(o: Int) {
-                        showMessage("保存成功")
-                    }
+//                    override fun error(message: String) {
+//                        showExceptionMessage("数据刷新失败：$message")
+//                    }
+//                })
 
-                    override fun error(message: String) {
-                        showExceptionMessage("数据刷新失败：$message")
-                    }
-                })
-        })
+            viewModel.update()
+        }
 
     }
 

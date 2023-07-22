@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="end|center_vertical"
-            android:text="@{Entity.version}" />
+            android:text="@{viewModel.version}" />
 
 
         <LinearLayout
@@ -63,6 +63,7 @@
                 android:translationZ="1dp">
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textInputLayoutLoginName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/login_loginname"
@@ -77,12 +78,12 @@
                         android:inputType="text"
                         android:lines="1"
                         android:maxLines="1"
-                        android:text="@={Entity.userName}"
+                        android:text="@={viewModel.userName}"
                         android:background="#AAFFFFFF"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    style="?colorOnPrimary"
+                    android:id="@+id/textInputLayoutPassword"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:hint="@string/login_password"
@@ -92,6 +93,7 @@
                     app:errorEnabled="false"
                     app:passwordToggleEnabled="true"
                     app:startIconContentDescription="Heading"
+                    app:errorTextColor="@color/danger"
                     >
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -102,7 +104,7 @@
                         android:inputType="textPassword"
                         android:lines="1"
                         android:maxLines="1"
-                        android:text="@={Entity.password}"
+                        android:text="@={viewModel.password}"
                         android:background="#AAFFFFFF"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -114,7 +116,6 @@
                 android:layout_height="@dimen/default_button_heigth"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/activity_login_button_margin_top"
-                android:onClick="@{(view)->Entity.loginBtnClick(view)}"
                 android:text="@string/login_loginbutton"
                 android:textSize="@dimen/default_button_textsize"/>
 
@@ -128,13 +129,12 @@
             android:visibility="visible">
 
             <TextView
-                android:id="@+id/login_txt_bottom_system_name"
+                android:id="@+id/txtSystemName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="end"
-                android:onLongClick="@{(view)->Entity.onLongClick(view)}"
                 android:singleLine="true"
-                android:text="@{Entity.systemname}" />
+                android:text="@{viewModel.systemname}" />
 
         </LinearLayout>
 
@@ -144,8 +144,8 @@
     <data>
 
         <variable
-            name="Entity"
-            type="esa.mydemo.main.LoginActivity.Entity" />
+            name="viewModel"
+            type="esa.mydemo.main.login.LoginActivityViewModel" />
     </data>
 
 </layout>

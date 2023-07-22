@@ -1,6 +1,7 @@
 package esa.mylibrary.config;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 
@@ -9,6 +10,8 @@ import androidx.core.content.pm.PackageInfoCompat;
 import java.util.HashMap;
 import java.util.Map;
 
+import esa.mylibrary.apinew.RetrofitManager;
+import esa.mylibrary.apiv2.RetrofitUtil;
 import esa.mylibrary.gps.MyGps;
 import esa.mylibrary.icon.MyIcon;
 import esa.mylibrary.info.AppInfo;
@@ -16,6 +19,7 @@ import esa.mylibrary.info.CodeInfo;
 import esa.mylibrary.info.DeviceInfo;
 import esa.mylibrary.map.Osmdroid;
 import esa.mylibrary.sensor.MySensor;
+import esa.mylibrary.utils.MySharedPreferences;
 import esa.mylibrary.utils.log.MyLog;
 
 public class Config {
@@ -89,16 +93,10 @@ public class Config {
             AppInfo.init(pageName, appCode, appName, appNameEn, info.versionName, PackageInfoCompat.getLongVersionCode(info));
 
             //code/版本号、字典
-            CodeInfo.init();
+            CodeInfo.init(myApplication.getApplicationContext());
 
             //osmdroid
             Osmdroid.init(myApplication);
-
-            //GPS
-            MyGps.getInstance().init(myApplication);
-
-            //Sensor
-            MySensor.getInstance().init(myApplication);
 
             //osm自带指南针监听-同样采用 方向角、俯仰角、翻滚角
             //esa.mylibrary.sensor.InternalCompassOrientationProvider.getInstance(myApplication).startOrientationProvider(null);
@@ -106,10 +104,25 @@ public class Config {
             //icon
             MyIcon.INSTANCE.init();
 
+            //retrofit2
+            String url = Config.api.http + "://" + Config.api.ip + ":" + Config.api.port + "/" + Config.api.project + "/";
+            RetrofitManager.INSTANCE.init(url);
+
+            //apiv2
+            RetrofitUtil.INSTANCE.init();
 
         } catch (Exception ex) {
             showErrorMessage(ex.getMessage());
         }
+
+    }
+
+    public static void initByPermissionEnd(Context context) {
+        //GPS
+        MyGps.getInstance().init(context);
+
+        //Sensor
+        MySensor.getInstance().init(context);
 
     }
 

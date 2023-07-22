@@ -1,14 +1,11 @@
 package esa.mydemo.fragment.headerdemo
 
-import android.content.Intent
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
-import esa.mydemo.base.BaseViewModel
-import esa.mydemo.main.LoginActivity
-import esa.mylibrary.info.UserInfo
+import esa.mydemo.base.AppBaseViewModel
 
-class MyComplexMotionViewModel : BaseViewModel() {
+class MyComplexMotionViewModel : AppBaseViewModel() {
     // TODO: Implement the ViewModel
     //数据绑定
     var appversion = MutableLiveData("版本")
@@ -24,20 +21,5 @@ class MyComplexMotionViewModel : BaseViewModel() {
         fragment = myProfileFragment
     }
 
-    /**
-     * @param view
-     * @return void
-     * @description 注销
-     * @author tvrddmss
-     * @time 2023/4/7 21:18
-     */
-    fun onLogoutClick(view: View?) {
-        UserInfo.setPassword("")
-
-        //跳转页面
-        val intent = Intent(this.view!!.context, LoginActivity::class.java)
-        this.view!!.context.startActivity(intent)
-        fragment.activity?.finish()
-    }
 
 }
